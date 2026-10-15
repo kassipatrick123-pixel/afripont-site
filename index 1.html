@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AfriPont Associations</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="AfriPont Associations : les cotisations de votre association, claires pour tous. Mutuelles, amicales, anciens élèves, églises en Côte d'Ivoire.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;700&display=swap">
+<style>
+/* Mise en page : une colonne étroite façon carnet de trésorier, un reçu d'exemple en vedette, bandes pleine largeur */
+:root {
+  --bg: #f6f8f6;
+  --surface: #ffffff;
+  --ink: #12241f;
+  --muted: #4f625c;
+  --line: #d7e1dc;
+  --green: #0d6b5c;
+  --green-soft: #e3f0ec;
+  --gold: #e8a317;
+  --gold-ink: #7a5300;
+  --on-green: #ffffff;
+  --display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+  --body: "Figtree", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1715; --surface: #142420; --ink: #e8f0ed; --muted: #a3b6b0; --line: #26403a;
+    --green: #3fae98; --green-soft: #173a33; --gold: #f0b43a; --gold-ink: #f0b43a; --on-green: #06120f;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1715; --surface: #142420; --ink: #e8f0ed; --muted: #a3b6b0; --line: #26403a;
+  --green: #3fae98; --green-soft: #173a33; --gold: #f0b43a; --gold-ink: #f0b43a; --on-green: #06120f;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.55; }
+.wrap { max-width: 1040px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; margin: 0; }
+p { margin: 0; }
+a { color: var(--green); }
+a:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 18px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+.brand svg { width: 40px; height: 40px; flex: none; }
+.brand b { font-family: var(--display); font-size: 1.15rem; }
+.brand span { display: block; font-size: .8rem; color: var(--muted); letter-spacing: .04em; }
+.chip { font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--gold-ink); border: 1.5px solid var(--gold); border-radius: 999px; padding: 4px 10px; white-space: nowrap; }
+
+.hero .wrap { display: grid; grid-template-columns: 1.15fr 1fr; gap: 40px; align-items: center; padding-block: 28px 56px; }
+.hero h1 { font-size: clamp(2.1rem, 5.4vw, 3.6rem); font-weight: 800; letter-spacing: -.02em; }
+.hero h1 em { font-style: normal; color: var(--green); }
+.lead { margin-top: 18px; font-size: 1.12rem; color: var(--muted); max-width: 34em; }
+.who { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px; padding: 0; list-style: none; }
+.who li { background: var(--green-soft); color: var(--ink); border-radius: 8px; padding: 5px 11px; font-size: .92rem; font-weight: 500; }
+.cta { margin-top: 26px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+.btn { display: inline-block; background: var(--green); color: var(--on-green); font-weight: 700; text-decoration: none; border-radius: 10px; padding: 13px 20px; }
+.cta small { color: var(--muted); }
+
+/* Le reçu d'exemple : l'objet que le trésorier montre en réunion */
+.receipt { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px; box-shadow: 0 18px 40px -24px rgba(13, 60, 50, .35); min-width: 0; }
+.receipt .tag { font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.receipt h3 { font-size: 1.25rem; margin-top: 4px; }
+.receipt .sub { color: var(--muted); font-size: .92rem; }
+.bar { height: 10px; background: var(--green-soft); border-radius: 99px; margin: 18px 0 8px; overflow: hidden; }
+.bar i { display: block; height: 100%; width: 72.5%; background: var(--green); border-radius: 99px; }
+.count { display: flex; justify-content: space-between; font-size: .95rem; font-variant-numeric: tabular-nums; }
+.count b { font-family: var(--display); font-size: 1.6rem; }
+.rows { margin-top: 18px; border-top: 1px dashed var(--line); }
+.rows div { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px dashed var(--line); font-variant-numeric: tabular-nums; }
+.rows span { color: var(--muted); }
+.stamp { margin-top: 16px; display: inline-block; border: 2px solid var(--green); color: var(--green); font-weight: 700; font-size: .85rem; letter-spacing: .06em; text-transform: uppercase; padding: 4px 10px; border-radius: 6px; transform: rotate(-3deg); }
+.example { margin-top: 10px; font-size: .78rem; color: var(--muted); }
+
+section { padding-block: 56px; }
+.band { background: var(--surface); border-block: 1px solid var(--line); }
+.kicker { font-size: .8rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--gold-ink); }
+h2 { font-size: clamp(1.6rem, 3.6vw, 2.3rem); margin-top: 8px; font-weight: 800; }
+.steps { margin-top: 28px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; padding: 0; list-style: none; counter-reset: s; }
+.steps li { counter-increment: s; min-width: 0; }
+.steps li::before { content: counter(s); display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--gold); color: #1d1300; font-family: var(--display); font-weight: 800; margin-bottom: 12px; }
+.steps h3 { font-size: 1.15rem; }
+.steps p { margin-top: 6px; color: var(--muted); }
+
+.money { display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: start; margin-top: 26px; background: var(--green-soft); border-radius: 14px; padding: 22px; }
+.money svg { width: 44px; height: 44px; }
+.money p { color: var(--ink); max-width: 46em; }
+
+.prices { margin-top: 26px; overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; min-width: 320px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 11px 12px; border-bottom: 1px solid var(--line); }
+th { font-size: .8rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+td:last-child, th:last-child { text-align: right; }
+td.free { color: var(--green); font-weight: 700; }
+.note { margin-top: 12px; color: var(--muted); font-size: .92rem; }
+
+.contact { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; }
+.mail { font-family: var(--display); font-size: clamp(1.3rem, 3.4vw, 1.8rem); font-weight: 800; color: var(--green); word-break: break-all; }
+footer .wrap { padding-block: 28px; color: var(--muted); font-size: .9rem; display: grid; gap: 6px; }
+footer b { color: var(--ink); font-family: var(--display); }
+
+@media (max-width: 760px) {
+  .hero .wrap { grid-template-columns: 1fr; gap: 30px; padding-block: 12px 40px; }
+  .steps { grid-template-columns: 1fr; }
+  section { padding-block: 42px; }
+  body { font-size: 16px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .bar i { animation: fill 1.2s ease-out both; }
+  @keyframes fill { from { width: 10%; } }
+}
+</style>
+
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="brand" href="#">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#0d6b5c"/><path d="M9 45 Q32 -2 55 45" fill="none" stroke="#e8a317" stroke-width="5.5" stroke-linecap="round"/><path d="M7 45 H57" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/><circle cx="23" cy="33" r="3.6" fill="#ffffff"/><circle cx="32" cy="30" r="4.2" fill="#ffffff"/><circle cx="41" cy="33" r="3.6" fill="#ffffff"/><path d="M18 42.5 a5 4.6 0 0 1 10 0 Z M26.4 42.5 a5.6 5.4 0 0 1 11.2 0 Z M36 42.5 a5 4.6 0 0 1 10 0 Z" fill="#ffffff"/></svg>
+      <span><b>AfriPont Associations</b><span>Le pont de la confiance</span></span>
+    </a>
+    <span class="chip">Bientôt disponible</span>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <h1>Les cotisations de votre association, <em>claires pour tous.</em></h1>
+        <p class="lead">Le bureau suit qui a payé, confirme les paiements Mobile Money et envoie les rappels. Chaque membre voit sa situation et reçoit son reçu, depuis son téléphone, sans rien installer.</p>
+        <ul class="who">
+          <li>Mutuelles</li><li>Amicales</li><li>Anciens élèves</li><li>Églises</li><li>Associations de quartier</li>
+        </ul>
+        <div class="cta">
+          <a class="btn" href="mailto:contact@afripont.com?subject=Association%20pilote%20AfriPont">Inscrire mon association au pilote</a>
+          <small>Phase pilote gratuite à Abidjan</small>
+        </div>
+      </div>
+
+      <aside class="receipt" aria-label="Exemple de suivi des cotisations">
+        <span class="tag">Cotisation d'octobre</span>
+        <h3>Mutuelle de Bonoua</h3>
+        <span class="sub">5 000 FCFA par membre, à payer avant le 31/10</span>
+        <div class="bar"><i></i></div>
+        <div class="count"><span><b>87</b> sur 120 ont cotisé</span><span>435 000 FCFA reçus</span></div>
+        <div class="rows">
+          <div><span>Reçu n° 2026-0412</span><b>5 000 FCFA</b></div>
+          <div><span>Orange Money · réf. vérifiée</span><b>Confirmé</b></div>
+        </div>
+        <span class="stamp">Payé · merci</span>
+        <p class="example">Exemple d'écran, chiffres fictifs.</p>
+      </aside>
+    </div>
+  </div>
+
+  <section class="band">
+    <div class="wrap">
+      <span class="kicker">Comment ça marche</span>
+      <h2>Chaque franc compté, chaque membre informé.</h2>
+      <ol class="steps">
+        <li><h3>Le bureau crée l'association</h3><p>Le président ajoute l'association et invite les membres avec un lien WhatsApp. Il donne les rôles : trésorier, secrétaire, commissaire aux comptes.</p></li>
+        <li><h3>Le membre paie et le déclare</h3><p>Il paie sur le numéro Mobile Money de l'association, puis envoie la capture et la référence du paiement dans AfriPont.</p></li>
+        <li><h3>Le trésorier confirme</h3><p>Le paiement est validé, le membre reçoit un reçu numéroté. Tout le monde voit le résumé de la caisse, personne n'est exposé.</p></li>
+      </ol>
+      <div class="money">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="none" stroke="var(--green)" stroke-width="3"/><path d="M15 25 l6 6 l12 -14" fill="none" stroke="var(--green)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p><b>AfriPont ne touche jamais votre argent.</b> Les cotisations vont directement sur le compte Mobile Money de votre association (Orange Money, MTN MoMo, Moov Money, Wave). AfriPont sert seulement à tenir les comptes clairs et à informer les membres.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <span class="kicker">Abonnement</span>
+      <h2>Un prix par mois, selon la taille de l'association</h2>
+      <div class="prices">
+        <table>
+          <thead><tr><th>Nombre de membres</th><th>Par mois</th></tr></thead>
+          <tbody>
+            <tr><td>Jusqu'à 10</td><td class="free">Gratuit</td></tr>
+            <tr><td>11 à 20</td><td>2 000 FCFA</td></tr>
+            <tr><td>21 à 50</td><td>3 000 FCFA</td></tr>
+            <tr><td>51 à 100</td><td>5 000 FCFA</td></tr>
+            <tr><td>101 à 150</td><td>10 000 FCFA</td></tr>
+            <tr><td>151 à 300</td><td>15 000 FCFA</td></tr>
+            <tr><td>Plus de 300</td><td>20 000 FCFA</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">Pendant la phase pilote, les associations test ne paient rien.</p>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap contact">
+      <div>
+        <span class="kicker">Nous écrire</span>
+        <h2>Votre association veut essayer ?</h2>
+      </div>
+      <span class="mail">contact@afripont.com</span>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <b>AfriPont, le pont de la confiance.</b>
+    <span>Abidjan, Côte d'Ivoire · Société AFRIPONT DIGITAL SARLU en cours de création</span>
+    <span>Responsable de la publication : KASSI N'guetta Patrick Eloi · contact@afripont.com</span>
+    <span>Hébergement du site : GitHub, Inc. (GitHub Pages) · Ce site n'utilise ni cookie ni suivi des visiteurs.</span>
+    <span>© 2026 AfriPont</span>
+  </div>
+</footer>
+</body>
+</html>
