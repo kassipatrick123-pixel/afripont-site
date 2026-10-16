@@ -7,136 +7,69 @@
 <meta name="description" content="AfriPont Associations : l'application qui aide les mutuelles, amicales, anciens élèves et églises de Côte d'Ivoire à suivre les cotisations de leurs membres.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='16' fill='%23123B6D'/><path d='M9 45 Q32 -2 55 45' fill='none' stroke='%232BB57B' stroke-width='5.5' stroke-linecap='round'/><path d='M7 45 H57' stroke='%23ffffff' stroke-width='5' stroke-linecap='round'/><circle cx='23' cy='33' r='3.6' fill='%23ffffff'/><circle cx='32' cy='30' r='4.2' fill='%23ffffff'/><circle cx='41' cy='33' r='3.6' fill='%23ffffff'/><path d='M18 42.5 a5 4.6 0 0 1 10 0 Z M26.4 42.5 a5.6 5.4 0 0 1 11.2 0 Z M36 42.5 a5 4.6 0 0 1 10 0 Z' fill='%23ffffff'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;600;700&display=swap">
 <style>
-:root{--bg:#F4F7FB;--surface:#fff;--ink:#0F1E33;--muted:#4E5D72;--line:#D9E1EC;--navy:#123B6D;--navy-2:#0C2A50;--green:#1E9E6A;--green-ink:#147A51;--soft:#E4F4EC;--sky:#E6EDF7;--late:#B42318;--hero:#123B6D;
+:root{--navy:#123B6D;--navy2:#0C2A50;--deep:#081a33;--green:#1E9E6A;--mint:#7FE0B4;--ink:#0F1E33;--muted:#4E5D72;--line:#D9E1EC;--bg:#F4F7FB;
 --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;--body:"Figtree","Segoe UI",system-ui,sans-serif}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0B1524;--surface:#12213A;--ink:#E8EEF7;--muted:#A6B4C8;--line:#24385A;--navy:#5B8FD6;--navy-2:#081222;--green:#3CC489;--green-ink:#3CC489;--soft:#143A2E;--sky:#172B4A;--hero:#14305A;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#0B1524;--surface:#12213A;--ink:#E8EEF7;--muted:#A6B4C8;--line:#24385A;--navy:#5B8FD6;--navy-2:#081222;--green:#3CC489;--green-ink:#3CC489;--soft:#143A2E;--sky:#172B4A;--hero:#14305A;color-scheme:dark}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45}
-h1,h2,h3{font-family:var(--display);margin:0;line-height:1.1;text-wrap:balance}p{margin:0}a{color:inherit}
-a:focus-visible{outline:3px solid var(--green);outline-offset:3px}
-.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.util{background:var(--navy-2);color:#C9D6EA;font-size:.78rem}.util .wrap{display:flex;justify-content:space-between;gap:10px;padding-block:7px}
-header{background:var(--surface);border-bottom:4px solid var(--green)}
-header .wrap{display:flex;align-items:center;gap:12px;padding-block:14px}header svg{width:42px;height:42px;flex:none}
-header b{font-family:var(--display);font-size:1.15rem;display:block}header small{color:var(--muted);font-size:.8rem}
-.pill{margin-left:auto;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--green-ink);border:1.5px solid var(--green);border-radius:99px;padding:4px 10px;white-space:nowrap}
-.hero{background:var(--hero);color:#fff}.hero .wrap{padding-block:28px 30px}
-.hero h1{font-size:clamp(1.9rem,6vw,3rem);font-weight:800;letter-spacing:-.02em}.hero h1 em{font-style:normal;color:#7FE0B4}
-.who{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}.who span{background:rgba(255,255,255,.12);border-radius:99px;padding:5px 12px;font-size:.88rem;font-weight:500}
-.btn{display:inline-block;margin-top:20px;background:var(--green);color:#fff;font-weight:700;text-decoration:none;border-radius:12px;padding:14px 22px;font-size:1.05rem}
-.tabsbar{background:var(--surface);border-bottom:1px solid var(--line)}.tabs{display:grid;grid-template-columns:repeat(3,1fr)}
-.tabs button{all:unset;cursor:pointer;text-align:center;padding:13px 4px;font-weight:700;color:var(--muted);border-bottom:3px solid transparent}
-.tabs button[aria-selected="true"]{color:var(--navy);border-bottom-color:var(--navy)}
-.tabs button:focus-visible{outline:3px solid var(--green);outline-offset:-3px}
-section{padding-block:26px}h2{font-size:clamp(1.3rem,4vw,1.8rem);font-weight:800;margin-bottom:14px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
-.t{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--navy);border-radius:12px;padding:14px 12px;min-height:100px}
-.t.g{border-left-color:var(--green)}.t i{font-style:normal;font-size:1.7rem;display:block}.t b{display:block;margin-top:8px;line-height:1.2}
-.steps{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
-.st{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:center}
-.st u{text-decoration:none;width:40px;height:40px;border-radius:50%;background:var(--hero);color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:800}
-.st b{display:block}.st span{color:var(--muted);font-size:.9rem}
-.info{margin-top:14px;background:var(--soft);border-left:5px solid var(--green);border-radius:10px;padding:13px 14px}
-.prices{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
-.pc{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center}
-.pc small{color:var(--muted);display:block}.pc b{font-family:var(--display);font-size:1.45rem;color:var(--navy);display:block;margin-top:4px;font-variant-numeric:tabular-nums}
-.pc.free{background:var(--soft);border-color:transparent}.pc.free b{color:var(--green-ink)}
-.note{margin-top:10px;color:var(--muted);font-size:.9rem}
-.contact{background:var(--hero);color:#fff;border-radius:18px;padding:22px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
-.contact a{font-family:var(--display);font-weight:800;font-size:clamp(1.15rem,4.5vw,1.6rem);color:#7FE0B4;word-break:break-all}
-@media (min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}.prices{grid-template-columns:repeat(4,1fr)}.tabs{max-width:980px;margin:0 auto;background:none}}
-footer .wrap{padding-block:24px 34px;color:var(--muted);font-size:.85rem;display:grid;gap:5px}footer b{color:var(--ink);font-family:var(--display)}
-.hero .wrap{padding-block:26px 78px}
-.def{margin-top:12px;max-width:36em;font-size:1.08rem;color:#D3DEEE}.def b{color:#fff}
-.login{position:relative;margin-top:-56px;background:var(--surface);border-radius:18px;padding:18px;box-shadow:0 18px 36px -18px rgba(12,42,80,.45);max-width:460px}
-.login h2{font-size:1.2rem;margin:0}.login .soon{float:right;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--green-ink);background:var(--soft);border-radius:99px;padding:3px 9px}
-.fld{margin-top:10px;border:1.5px solid var(--line);border-radius:10px;padding:11px 12px;color:var(--muted)}
-.login .go{display:block;text-align:center;margin-top:12px;background:var(--hero);color:#fff;font-weight:700;border-radius:12px;padding:13px;opacity:.65}
-.login a.alt{display:block;text-align:center;margin-top:12px;color:var(--green-ink);font-weight:700;text-decoration:none}
-.esp{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.e{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px}.e i{font-style:normal;font-size:1.6rem}.e b{display:block;margin-top:6px}.e span{font-size:.86rem;color:var(--muted)}
-.e.wide{grid-column:1/-1;border-left:5px solid var(--green)}.e.wide em{font-style:normal;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--green-ink);background:var(--soft);border-radius:99px;padding:2px 8px;margin-left:6px}
-@media (min-width:700px){.esp{grid-template-columns:repeat(4,1fr)}}
-.pay{text-align:center;color:var(--muted);font-size:.9rem}.pay div{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:8px}
-.pay span{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-weight:700;color:var(--ink);font-size:.88rem}
-.ctrl{margin-top:12px;background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--navy);border-radius:10px;padding:13px 14px}.ctrl h3{font-size:1.05rem}.ctrl ul{margin:8px 0 0;padding-left:20px;display:grid;gap:4px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:var(--body);color:var(--ink);background:var(--bg);line-height:1.5}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:1.08;text-wrap:balance}p{margin:0}a{color:inherit;text-decoration:none}
+.cover{min-height:100svh;display:flex;flex-direction:column;color:#fff;position:relative;overflow:hidden}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px max(16px,4vw);position:relative;z-index:2}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;font-size:1.25rem}.brand svg{width:40px;height:40px}
+.menu{display:flex;gap:6px;align-items:center}.menu a{font-weight:600;padding:8px 12px;border-radius:10px;color:#D3DEEE}.menu a.on{color:#fff;box-shadow:inset 0 -3px 0 var(--mint);border-radius:0}
+.menu a.cta{background:var(--green);color:#fff;border-radius:10px}
+.burger{display:none;width:44px;height:44px;border-radius:12px;border:1.5px solid rgba(255,255,255,.35);background:none;color:#fff;font-size:1.3rem}
+.mid{flex:1;display:grid;place-items:center;text-align:center;padding:20px max(16px,4vw) 40px;position:relative;z-index:2}
+.mid h1{font-size:clamp(2.2rem,6vw,4.2rem);font-weight:800;letter-spacing:-.025em;max-width:16ch;margin:0 auto}.mid h1 em{font-style:normal;color:var(--mint)}
+.mid p{margin:16px auto 26px;max-width:34em;font-size:clamp(1.02rem,2vw,1.2rem);color:#D3DEEE}
+.btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.b1{background:#fff;color:var(--navy);font-weight:700;padding:14px 24px;border-radius:12px}.b2{border:1.5px solid rgba(255,255,255,.5);color:#fff;font-weight:700;padding:13px 22px;border-radius:12px}
+.foot{text-align:center;color:#9FB3CF;font-size:.85rem;padding:0 16px 22px;position:relative;z-index:2}
+section.d{padding:56px max(16px,4vw);max-width:1000px;margin:0 auto}section.d h2{font-size:clamp(1.6rem,4vw,2.3rem);margin-bottom:18px;color:var(--navy)}
+.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.c{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px}.c b{display:block;font-size:1.05rem;margin:6px 0 4px}.c span{color:var(--muted)}
+.c i{font-style:normal;font-size:1.6rem}
+.prices{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}.pc{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center}.pc small{color:var(--muted);display:block}.pc b{font-family:var(--display);font-size:1.4rem;color:var(--navy)}
+.contact{background:var(--navy);color:#fff;border-radius:20px;padding:26px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:center}.contact h2{color:#fff!important;margin:0!important}.contact a{font-family:var(--display);font-weight:800;color:var(--mint);font-size:1.3rem;word-break:break-all}
+footer{padding:22px max(16px,4vw) 34px;color:var(--muted);font-size:.85rem;text-align:center}
+@media (max-width:760px){.menu{display:none}.burger{display:block}}
+.ft{background:linear-gradient(180deg,#0C2A50,#123B6D);color:#C9D6EA;margin-top:30px}
+.ftg{max-width:1100px;margin:0 auto;padding:44px max(16px,4vw) 28px;display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+.ft h4{font-family:var(--display);color:#fff;font-size:1.15rem;margin:0 0 14px}
+.ft li{list-style:none;margin:0 0 9px}.ft ul{padding:0;margin:0}.ft a:hover{color:#fff}
+.ft .ln li::before{content:"›";color:var(--mint);margin-right:8px;font-weight:700}
+.ft .ic li{display:flex;gap:10px}.ft .ic span{width:1.2em}
+.nl{display:flex;border:1.5px solid rgba(255,255,255,.35);border-radius:12px;overflow:hidden;margin-top:12px}.nl input{flex:1;min-width:0;background:none;border:0;color:#fff;padding:12px;font:inherit}.nl input::placeholder{color:#9FB3CF}.nl button{background:var(--green);color:#fff;border:0;font:inherit;font-weight:700;padding:0 14px}
+.ftb{border-top:1px solid rgba(255,255,255,.12);background:#081a33}.ftb div{max-width:1100px;margin:0 auto;padding:16px max(16px,4vw);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:.85rem}.ftb b{color:#fff}
+.up{position:fixed;right:16px;bottom:16px;width:46px;height:46px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:1.3rem;box-shadow:0 8px 20px -6px rgba(0,0,0,.4);z-index:9}
+@media (max-width:860px){.ftg{grid-template-columns:1fr 1fr}}@media (max-width:520px){.ftg{grid-template-columns:1fr}}
+.up{opacity:0;pointer-events:none;transition:opacity .3s}.up.show{opacity:1;pointer-events:auto}
+@media (max-width:760px){.menu.open{display:flex;flex-direction:column;align-items:stretch;position:absolute;top:76px;right:16px;left:16px;background:#0C2A50;border:1px solid rgba(255,255,255,.15);border-radius:16px;padding:10px;z-index:5}.menu.open a.on{box-shadow:none}}
+footer.ft{padding:0;text-align:left;font-size:.95rem}.cover .bar{z-index:10}
+/* motif F « Pont lumineux » choisi le 2026-10-16 */
+.ft{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60' preserveAspectRatio='none'%3E%3Cpath d='M-10 60Q100 -20 210 60' fill='none' stroke='%231E9E6A' stroke-opacity='.45' stroke-width='1.2'/%3E%3Cpath d='M-10 60Q100 0 210 60' fill='none' stroke='%237FE0B4' stroke-opacity='.2' stroke-width='.6'/%3E%3C/svg%3E"),linear-gradient(180deg,#0C2A50,#123B6D);background-size:100% 100%}
+.nlb{display:inline-block;margin-top:12px;background:var(--green);color:#fff;font-weight:700;padding:11px 18px;border-radius:12px}
+.cover{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60' preserveAspectRatio='none'%3E%3Cpath d='M-10 60Q100 -20 210 60' fill='none' stroke='%231E9E6A' stroke-opacity='.7' stroke-width='1.2'/%3E%3Cpath d='M-10 60Q100 0 210 60' fill='none' stroke='%237FE0B4' stroke-opacity='.2' stroke-width='.6'/%3E%3C/svg%3E") bottom/100% 50% no-repeat,#F4F7FB;color:var(--ink)}.bar .brand{color:var(--navy)}.menu a{color:#4E5D72}.menu a.on{color:var(--navy);box-shadow:inset 0 -3px 0 var(--green)}
+.burger{color:var(--navy);border-color:#C7D3E3}.mid h1{color:var(--navy)}.mid h1 em{color:var(--green)}.mid p{color:#4E5D72}.b1{background:var(--navy);color:#fff}.b2{border-color:var(--navy);color:var(--navy)}.foot{color:#4E5D72}
+.menu.open{background:#fff!important;border-color:#D9E1EC!important}@media(max-width:760px){.cover{background-size:100% 26%,auto}}
 </style>
 </head>
 <body>
-<div class="util"><div class="wrap"><span>Abidjan · Côte d'Ivoire</span><a href="mailto:contact@afripont.com">contact@afripont.com</a></div></div>
-<header><div class="wrap"><svg viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#123B6D"/><path d="M9 45 Q32 -2 55 45" fill="none" stroke="#2BB57B" stroke-width="5.5" stroke-linecap="round"/><path d="M7 45 H57" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/><circle cx="23" cy="33" r="3.6" fill="#ffffff"/><circle cx="32" cy="30" r="4.2" fill="#ffffff"/><circle cx="41" cy="33" r="3.6" fill="#ffffff"/><path d="M18 42.5 a5 4.6 0 0 1 10 0 Z M26.4 42.5 a5.6 5.4 0 0 1 11.2 0 Z M36 42.5 a5 4.6 0 0 1 10 0 Z" fill="#ffffff"/></svg><div><b style="font-size:1.35rem">AfriPont</b><small style="color:var(--green-ink);font-weight:700;letter-spacing:.04em">Associations</small></div><span class="pill">Bientôt</span></div></header>
-
-<div class="hero"><div class="wrap">
-<h1>Bienvenue sur <em>AfriPont</em></h1>
-<p class="def"><b>AfriPont est une application qui aide les associations à suivre les cotisations de leurs membres.</b> Chaque membre paie par Mobile Money, le trésorier confirme, et chacun reçoit son reçu. Tout est clair, pour tous.</p>
-</div></div>
-
-<div class="wrap">
-<div class="login">
-<h2>Accès à mon association <span class="soon">Bientôt</span></h2>
-<div class="fld">📱 Numéro de téléphone</div>
-<div class="fld">🔒 Code secret (4 chiffres)</div>
-<span class="go">Se connecter</span>
-<a class="alt" href="mailto:contact@afripont.com?subject=Cr%C3%A9er%20mon%20association%20sur%20AfriPont">➕ Créer mon association (phase pilote gratuite)</a>
-</div>
-</div>
-
-<main>
-<section><div class="wrap">
-<h2>Les espaces du portail</h2>
-<div class="esp">
-<div class="e"><i>👔</i><b>Président</b><span>Tout voir, donner les rôles</span></div>
-<div class="e"><i>🧮</i><b>Trésorier</b><span>Confirmer, relancer</span></div>
-<div class="e"><i>🔍</i><b>Commissaire aux comptes</b><span>Contrôler les comptes</span></div>
-<div class="e"><i>🙋🏾</i><b>Membre</b><span>Payer, voir mes reçus</span></div>
-<div class="e wide"><i>🧾</i><b>Vérifier un reçu <em>Bientôt</em></b><span>Tapez le numéro du reçu pour savoir s'il est authentique.</span></div>
-</div>
-</div></section>
-
-<section style="padding-top:4px"><div class="wrap">
-<h2>Cotiser en 3 étapes</h2>
-<div class="steps">
-<div class="st"><u>1</u><div><b>Je paie</b><span>Orange, MTN, Moov ou Wave</span></div></div>
-<div class="st"><u>2</u><div><b>Le trésorier confirme</b><span>Il vérifie que l'argent est bien arrivé sur le compte, pas seulement la capture</span></div></div>
-<div class="st"><u>3</u><div><b>Je reçois mon reçu</b><span>Tout le monde voit la caisse</span></div></div>
-</div>
-<p class="info"><b>Bon à savoir :</b> l'argent va directement sur le compte Mobile Money de l'association. AfriPont n'y touche jamais.</p>
-<div class="ctrl"><h3>Le trésorier aussi est contrôlé.</h3><ul>
-<li>Personne ne valide son propre paiement.</li>
-<li>Le commissaire aux comptes voit chaque mouvement.</li>
-<li>Chaque mois, le solde du compte est comparé à celui de l'appli.</li></ul></div>
-</div></section>
-
-<section style="padding-top:4px"><div class="wrap">
-<h2>Prix par mois</h2>
-<div class="prices">
-<div class="pc free"><small>Jusqu'à 10 membres</small><b>Gratuit</b></div>
-<div class="pc"><small>11 à 20 membres</small><b>2 000 F</b></div>
-<div class="pc"><small>21 à 50 membres</small><b>3 000 F</b></div>
-<div class="pc"><small>51 à 100 membres</small><b>5 000 F</b></div>
-<div class="pc"><small>101 à 150 membres</small><b>10 000 F</b></div>
-<div class="pc"><small>151 à 200 membres</small><b>15 000 F</b></div>
-<div class="pc"><small>Plus de 200</small><b>20 000 F</b></div>
-</div>
-<p class="note">Prix en FCFA. Le premier mois est offert.</p>
-</div></section>
-
-<section style="padding-top:4px"><div class="wrap">
-<div class="pay">Paiement des cotisations par<div><span>Orange Money</span><span>MTN MoMo</span><span>Moov Money</span><span>Wave</span><span>Espèces</span></div></div>
-</div></section>
-
-<section style="padding-top:4px"><div class="wrap">
-<div class="contact"><h2 style="margin:0">Votre association veut essayer ?</h2><a href="mailto:contact@afripont.com">contact@afripont.com</a></div>
-</div></section>
-</main>
-
-<footer><div class="wrap">
-<b>AfriPont, le pont de la confiance.</b>
-<span>Abidjan, Côte d'Ivoire · Société AFRIPONT DIGITAL SARLU en cours de création</span>
-<span>Responsable de la publication : KASSI N'guetta Patrick Eloi · contact@afripont.com</span>
-<span>Hébergement du site : GitHub, Inc. (GitHub Pages) · Ce site n'utilise ni cookie ni suivi des visiteurs.</span>
-<span>© 2026 AfriPont</span>
-</div></footer>
-</body></html>
+<div class="cover"><div class="bar"><a class="brand" href="#"><svg viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#123B6D"/><path d="M9 45 Q32 -2 55 45" fill="none" stroke="#2BB57B" stroke-width="5.5" stroke-linecap="round"/><path d="M7 45 H57" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/><circle cx="23" cy="33" r="3.6" fill="#ffffff"/><circle cx="32" cy="30" r="4.2" fill="#ffffff"/><circle cx="41" cy="33" r="3.6" fill="#ffffff"/><path d="M18 42.5 a5 4.6 0 0 1 10 0 Z M26.4 42.5 a5.6 5.4 0 0 1 11.2 0 Z M36 42.5 a5 4.6 0 0 1 10 0 Z" fill="#ffffff"/></svg> AfriPont</a><nav class="menu"><a class="on" href="#">Accueil</a><a href="#fonctionnement">Comment ça marche</a><a href="#securite">Sécurité</a><a href="#prix">Prix</a><a class="cta" href="#contact">Contact</a></nav><button class="burger" aria-label="Menu">☰</button></div><div class="mid"><div><h1>Bienvenue sur <em>AfriPont</em></h1><p>AfriPont est une application qui aide les associations à suivre les cotisations de leurs membres. Chaque membre paie par Mobile Money, le trésorier confirme, et chacun reçoit son reçu. Tout est clair, pour tous.</p><div class="btns"><a class="b1" href="#contact">Essayer gratuitement</a><a class="b2" href="#fonctionnement">En savoir plus</a></div></div></div><div class="foot">Mutuelles · Amicales · Anciens élèves · Églises</div></div><section class="d" id="fonctionnement"><h2>Comment ça marche</h2><div class="g3">
+<div class="c"><i>📲</i><b>1. Je paie</b><span>Par Orange, MTN, Moov ou Wave, sur le numéro de l'association.</span></div>
+<div class="c"><i>✅</i><b>2. Le trésorier confirme</b><span>Il vérifie que l'argent est bien arrivé sur le compte, puis valide.</span></div>
+<div class="c"><i>🧾</i><b>3. Je reçois mon reçu</b><span>Tout le monde voit le résumé de la caisse, personne n'est exposé.</span></div></div></section>
+<section class="d" id="securite" style="padding-top:0"><h2>Le trésorier aussi est contrôlé</h2><div class="g3">
+<div class="c"><i>🔒</i><b>L'argent ne passe pas par nous</b><span>Il va directement sur le compte de l'association.</span></div>
+<div class="c"><i>🔍</i><b>Le commissaire voit tout</b><span>Chaque confirmation, chaque dépense.</span></div>
+<div class="c"><i>📅</i><b>Contrôle chaque mois</b><span>Le solde du compte est comparé à celui de l'appli.</span></div></div></section>
+<section class="d" id="prix" style="padding-top:0"><h2>Prix par mois</h2><div class="prices">
+<div class="pc"><small>Jusqu'à 10 membres</small><b style="color:#147A51">Gratuit</b></div><div class="pc"><small>11 à 20</small><b>2 000 F</b></div><div class="pc"><small>21 à 50</small><b>3 000 F</b></div><div class="pc"><small>51 à 100</small><b>5 000 F</b></div><div class="pc"><small>101 à 150</small><b>10 000 F</b></div><div class="pc"><small>151 à 200</small><b>15 000 F</b></div><div class="pc"><small>Plus de 200</small><b>20 000 F</b></div></div>
+<p style="margin-top:10px;color:var(--muted)">Prix en FCFA. Le premier mois est offert.</p></section>
+<section class="d" id="contact" style="padding-top:0"><div class="contact"><h2>Votre association veut essayer ?</h2><a href="mailto:contact@afripont.com">contact@afripont.com</a></div></section>
+<section class="d" id="mentions" style="padding-top:0"><h2>Mentions légales</h2><div class="c" style="color:var(--muted)"><p>Responsable de la publication : KASSI N'guetta Patrick Eloi · <a href="mailto:contact@afripont.com" style="color:var(--navy);font-weight:600">contact@afripont.com</a></p><p style="margin-top:6px">Société AFRIPONT DIGITAL SARLU en cours de création, Abidjan, Côte d'Ivoire.</p><p style="margin-top:6px">Hébergement du site : GitHub, Inc. (GitHub Pages). Ce site n'utilise ni cookie ni suivi des visiteurs.</p></div></section>
+<footer class="ft"><div class="ftg">
+<div><h4>Notre bureau</h4><ul class="ic"><li><span>📍</span>Abidjan, Yopougon, Côte d'Ivoire</li><li><span>✉️</span><a href="mailto:contact@afripont.com">contact@afripont.com</a></li><li><span>🌐</span>afripont.com</li></ul></div>
+<div><h4>Liens rapides</h4><ul class="ln"><li><a href="#fonctionnement">Comment ça marche</a></li><li><a href="#securite">Sécurité</a></li><li><a href="#prix">Prix</a></li><li><a href="#contact">Contact</a></li><li><a href="#mentions">Mentions légales</a></li></ul></div>
+<div><h4>Pour qui ?</h4><ul class="ln"><li>Mutuelles</li><li>Amicales</li><li>Anciens élèves</li><li>Églises</li><li>Associations de quartier</li></ul></div>
+<div><h4>Être informé du lancement</h4><p>Écrivez-nous, on vous prévient dès l'ouverture.</p><a class="nlb" href="mailto:contact@afripont.com?subject=Pr%C3%A9venez-moi%20du%20lancement%20d%27AfriPont">Me prévenir</a></div>
+</div><div class="ftb"><div><span>© 2026 <b>AfriPont</b>. Tous droits réservés.</span><span>AFRIPONT DIGITAL SARLU, en cours de création</span></div></div></footer><a class="up" href="#" aria-label="Haut de page">↑</a><script>const u=document.querySelector(".up");addEventListener("scroll",()=>u.classList.toggle("show",scrollY>400));const m=document.querySelector(".menu");document.querySelector(".burger").onclick=()=>m.classList.toggle("open");m.onclick=()=>m.classList.remove("open")</script></body></html>
