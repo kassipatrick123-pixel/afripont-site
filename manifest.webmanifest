@@ -1,0 +1,29 @@
+{
+ "name": "AfriPont",
+ "short_name": "AfriPont",
+ "description": "Les cotisations de votre association, claires pour tous.",
+ "lang": "fr",
+ "start_url": "/",
+ "scope": "/",
+ "display": "standalone",
+ "background_color": "#F4F7FB",
+ "theme_color": "#123B6D",
+ "icons": [
+  {
+   "src": "icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  },
+  {
+   "src": "icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}
