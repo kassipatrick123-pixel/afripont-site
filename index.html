@@ -3,219 +3,140 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>AfriPont Associations</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="AfriPont Associations : les cotisations de votre association, claires pour tous. Mutuelles, amicales, anciens élèves, églises en Côte d'Ivoire.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>AfriPont</title>
+<meta name="description" content="AfriPont Associations : l'application qui aide les mutuelles, amicales, anciens élèves et églises de Côte d'Ivoire à suivre les cotisations de leurs membres.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='16' fill='%23123B6D'/><path d='M9 45 Q32 -2 55 45' fill='none' stroke='%232BB57B' stroke-width='5.5' stroke-linecap='round'/><path d='M7 45 H57' stroke='%23ffffff' stroke-width='5' stroke-linecap='round'/><circle cx='23' cy='33' r='3.6' fill='%23ffffff'/><circle cx='32' cy='30' r='4.2' fill='%23ffffff'/><circle cx='41' cy='33' r='3.6' fill='%23ffffff'/><path d='M18 42.5 a5 4.6 0 0 1 10 0 Z M26.4 42.5 a5.6 5.4 0 0 1 11.2 0 Z M36 42.5 a5 4.6 0 0 1 10 0 Z' fill='%23ffffff'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;700&display=swap">
 <style>
-/* Mise en page : une colonne étroite façon carnet de trésorier, un reçu d'exemple en vedette, bandes pleine largeur */
-:root {
-  --bg: #f6f8f6;
-  --surface: #ffffff;
-  --ink: #12241f;
-  --muted: #4f625c;
-  --line: #d7e1dc;
-  --green: #0d6b5c;
-  --green-soft: #e3f0ec;
-  --gold: #e8a317;
-  --gold-ink: #7a5300;
-  --on-green: #ffffff;
-  --display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
-  --body: "Figtree", "Segoe UI", system-ui, sans-serif;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0d1715; --surface: #142420; --ink: #e8f0ed; --muted: #a3b6b0; --line: #26403a;
-    --green: #3fae98; --green-soft: #173a33; --gold: #f0b43a; --gold-ink: #f0b43a; --on-green: #06120f;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #0d1715; --surface: #142420; --ink: #e8f0ed; --muted: #a3b6b0; --line: #26403a;
-  --green: #3fae98; --green-soft: #173a33; --gold: #f0b43a; --gold-ink: #f0b43a; --on-green: #06120f;
-  color-scheme: dark;
-}
-* { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.55; }
-.wrap { max-width: 1040px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; margin: 0; }
-p { margin: 0; }
-a { color: var(--green); }
-a:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
-
-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 18px; }
-.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
-.brand svg { width: 40px; height: 40px; flex: none; }
-.brand b { font-family: var(--display); font-size: 1.15rem; }
-.brand span { display: block; font-size: .8rem; color: var(--muted); letter-spacing: .04em; }
-.chip { font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--gold-ink); border: 1.5px solid var(--gold); border-radius: 999px; padding: 4px 10px; white-space: nowrap; }
-
-.hero .wrap { display: grid; grid-template-columns: 1.15fr 1fr; gap: 40px; align-items: center; padding-block: 28px 56px; }
-.hero h1 { font-size: clamp(2.1rem, 5.4vw, 3.6rem); font-weight: 800; letter-spacing: -.02em; }
-.hero h1 em { font-style: normal; color: var(--green); }
-.lead { margin-top: 18px; font-size: 1.12rem; color: var(--muted); max-width: 34em; }
-.who { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px; padding: 0; list-style: none; }
-.who li { background: var(--green-soft); color: var(--ink); border-radius: 8px; padding: 5px 11px; font-size: .92rem; font-weight: 500; }
-.cta { margin-top: 26px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
-.btn { display: inline-block; background: var(--green); color: var(--on-green); font-weight: 700; text-decoration: none; border-radius: 10px; padding: 13px 20px; }
-.cta small { color: var(--muted); }
-
-/* Le reçu d'exemple : l'objet que le trésorier montre en réunion */
-.receipt { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px; box-shadow: 0 18px 40px -24px rgba(13, 60, 50, .35); min-width: 0; }
-.receipt .tag { font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-.receipt h3 { font-size: 1.25rem; margin-top: 4px; }
-.receipt .sub { color: var(--muted); font-size: .92rem; }
-.bar { height: 10px; background: var(--green-soft); border-radius: 99px; margin: 18px 0 8px; overflow: hidden; }
-.bar i { display: block; height: 100%; width: 72.5%; background: var(--green); border-radius: 99px; }
-.count { display: flex; justify-content: space-between; font-size: .95rem; font-variant-numeric: tabular-nums; }
-.count b { font-family: var(--display); font-size: 1.6rem; }
-.rows { margin-top: 18px; border-top: 1px dashed var(--line); }
-.rows div { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px dashed var(--line); font-variant-numeric: tabular-nums; }
-.rows span { color: var(--muted); }
-.stamp { margin-top: 16px; display: inline-block; border: 2px solid var(--green); color: var(--green); font-weight: 700; font-size: .85rem; letter-spacing: .06em; text-transform: uppercase; padding: 4px 10px; border-radius: 6px; transform: rotate(-3deg); }
-.example { margin-top: 10px; font-size: .78rem; color: var(--muted); }
-
-section { padding-block: 56px; }
-.band { background: var(--surface); border-block: 1px solid var(--line); }
-.kicker { font-size: .8rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--gold-ink); }
-h2 { font-size: clamp(1.6rem, 3.6vw, 2.3rem); margin-top: 8px; font-weight: 800; }
-.steps { margin-top: 28px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; padding: 0; list-style: none; counter-reset: s; }
-.steps li { counter-increment: s; min-width: 0; }
-.steps li::before { content: counter(s); display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--gold); color: #1d1300; font-family: var(--display); font-weight: 800; margin-bottom: 12px; }
-.steps h3 { font-size: 1.15rem; }
-.steps p { margin-top: 6px; color: var(--muted); }
-
-.money { display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: start; margin-top: 26px; background: var(--green-soft); border-radius: 14px; padding: 22px; }
-.money svg { width: 44px; height: 44px; }
-.money p { color: var(--ink); max-width: 46em; }
-
-.prices { margin-top: 26px; overflow-x: auto; }
-table { border-collapse: collapse; width: 100%; min-width: 320px; font-variant-numeric: tabular-nums; }
-th, td { text-align: left; padding: 11px 12px; border-bottom: 1px solid var(--line); }
-th { font-size: .8rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
-td:last-child, th:last-child { text-align: right; }
-td.free { color: var(--green); font-weight: 700; }
-.note { margin-top: 12px; color: var(--muted); font-size: .92rem; }
-
-.contact { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; }
-.mail { font-family: var(--display); font-size: clamp(1.3rem, 3.4vw, 1.8rem); font-weight: 800; color: var(--green); word-break: break-all; }
-footer .wrap { padding-block: 28px; color: var(--muted); font-size: .9rem; display: grid; gap: 6px; }
-footer b { color: var(--ink); font-family: var(--display); }
-
-@media (max-width: 760px) {
-  .hero .wrap { grid-template-columns: 1fr; gap: 30px; padding-block: 12px 40px; }
-  .steps { grid-template-columns: 1fr; }
-  section { padding-block: 42px; }
-  body { font-size: 16px; }
-}
-@media (prefers-reduced-motion: no-preference) {
-  .bar i { animation: fill 1.2s ease-out both; }
-  @keyframes fill { from { width: 10%; } }
-}
+:root{--bg:#F4F7FB;--surface:#fff;--ink:#0F1E33;--muted:#4E5D72;--line:#D9E1EC;--navy:#123B6D;--navy-2:#0C2A50;--green:#1E9E6A;--green-ink:#147A51;--soft:#E4F4EC;--sky:#E6EDF7;--late:#B42318;--hero:#123B6D;
+--display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;--body:"Figtree","Segoe UI",system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0B1524;--surface:#12213A;--ink:#E8EEF7;--muted:#A6B4C8;--line:#24385A;--navy:#5B8FD6;--navy-2:#081222;--green:#3CC489;--green-ink:#3CC489;--soft:#143A2E;--sky:#172B4A;--hero:#14305A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0B1524;--surface:#12213A;--ink:#E8EEF7;--muted:#A6B4C8;--line:#24385A;--navy:#5B8FD6;--navy-2:#081222;--green:#3CC489;--green-ink:#3CC489;--soft:#143A2E;--sky:#172B4A;--hero:#14305A;color-scheme:dark}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:1.1;text-wrap:balance}p{margin:0}a{color:inherit}
+a:focus-visible{outline:3px solid var(--green);outline-offset:3px}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.util{background:var(--navy-2);color:#C9D6EA;font-size:.78rem}.util .wrap{display:flex;justify-content:space-between;gap:10px;padding-block:7px}
+header{background:var(--surface);border-bottom:4px solid var(--green)}
+header .wrap{display:flex;align-items:center;gap:12px;padding-block:14px}header svg{width:42px;height:42px;flex:none}
+header b{font-family:var(--display);font-size:1.15rem;display:block}header small{color:var(--muted);font-size:.8rem}
+.pill{margin-left:auto;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--green-ink);border:1.5px solid var(--green);border-radius:99px;padding:4px 10px;white-space:nowrap}
+.hero{background:var(--hero);color:#fff}.hero .wrap{padding-block:28px 30px}
+.hero h1{font-size:clamp(1.9rem,6vw,3rem);font-weight:800;letter-spacing:-.02em}.hero h1 em{font-style:normal;color:#7FE0B4}
+.who{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}.who span{background:rgba(255,255,255,.12);border-radius:99px;padding:5px 12px;font-size:.88rem;font-weight:500}
+.btn{display:inline-block;margin-top:20px;background:var(--green);color:#fff;font-weight:700;text-decoration:none;border-radius:12px;padding:14px 22px;font-size:1.05rem}
+.tabsbar{background:var(--surface);border-bottom:1px solid var(--line)}.tabs{display:grid;grid-template-columns:repeat(3,1fr)}
+.tabs button{all:unset;cursor:pointer;text-align:center;padding:13px 4px;font-weight:700;color:var(--muted);border-bottom:3px solid transparent}
+.tabs button[aria-selected="true"]{color:var(--navy);border-bottom-color:var(--navy)}
+.tabs button:focus-visible{outline:3px solid var(--green);outline-offset:-3px}
+section{padding-block:26px}h2{font-size:clamp(1.3rem,4vw,1.8rem);font-weight:800;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.t{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--navy);border-radius:12px;padding:14px 12px;min-height:100px}
+.t.g{border-left-color:var(--green)}.t i{font-style:normal;font-size:1.7rem;display:block}.t b{display:block;margin-top:8px;line-height:1.2}
+.steps{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.st{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:center}
+.st u{text-decoration:none;width:40px;height:40px;border-radius:50%;background:var(--hero);color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:800}
+.st b{display:block}.st span{color:var(--muted);font-size:.9rem}
+.info{margin-top:14px;background:var(--soft);border-left:5px solid var(--green);border-radius:10px;padding:13px 14px}
+.prices{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.pc{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center}
+.pc small{color:var(--muted);display:block}.pc b{font-family:var(--display);font-size:1.45rem;color:var(--navy);display:block;margin-top:4px;font-variant-numeric:tabular-nums}
+.pc.free{background:var(--soft);border-color:transparent}.pc.free b{color:var(--green-ink)}
+.note{margin-top:10px;color:var(--muted);font-size:.9rem}
+.contact{background:var(--hero);color:#fff;border-radius:18px;padding:22px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
+.contact a{font-family:var(--display);font-weight:800;font-size:clamp(1.15rem,4.5vw,1.6rem);color:#7FE0B4;word-break:break-all}
+@media (min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}.prices{grid-template-columns:repeat(4,1fr)}.tabs{max-width:980px;margin:0 auto;background:none}}
+footer .wrap{padding-block:24px 34px;color:var(--muted);font-size:.85rem;display:grid;gap:5px}footer b{color:var(--ink);font-family:var(--display)}
+.hero .wrap{padding-block:26px 78px}
+.def{margin-top:12px;max-width:36em;font-size:1.08rem;color:#D3DEEE}.def b{color:#fff}
+.login{position:relative;margin-top:-56px;background:var(--surface);border-radius:18px;padding:18px;box-shadow:0 18px 36px -18px rgba(12,42,80,.45);max-width:460px}
+.login h2{font-size:1.2rem;margin:0}.login .soon{float:right;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--green-ink);background:var(--soft);border-radius:99px;padding:3px 9px}
+.fld{margin-top:10px;border:1.5px solid var(--line);border-radius:10px;padding:11px 12px;color:var(--muted)}
+.login .go{display:block;text-align:center;margin-top:12px;background:var(--hero);color:#fff;font-weight:700;border-radius:12px;padding:13px;opacity:.65}
+.login a.alt{display:block;text-align:center;margin-top:12px;color:var(--green-ink);font-weight:700;text-decoration:none}
+.esp{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.e{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px}.e i{font-style:normal;font-size:1.6rem}.e b{display:block;margin-top:6px}.e span{font-size:.86rem;color:var(--muted)}
+.e.wide{grid-column:1/-1;border-left:5px solid var(--green)}.e.wide em{font-style:normal;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--green-ink);background:var(--soft);border-radius:99px;padding:2px 8px;margin-left:6px}
+@media (min-width:700px){.esp{grid-template-columns:repeat(4,1fr)}}
+.pay{text-align:center;color:var(--muted);font-size:.9rem}.pay div{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:8px}
+.pay span{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-weight:700;color:var(--ink);font-size:.88rem}
+.ctrl{margin-top:12px;background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--navy);border-radius:10px;padding:13px 14px}.ctrl h3{font-size:1.05rem}.ctrl ul{margin:8px 0 0;padding-left:20px;display:grid;gap:4px}
 </style>
-
 </head>
 <body>
-<header>
-  <div class="wrap">
-    <a class="brand" href="#">
-      <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#0d6b5c"/><path d="M9 45 Q32 -2 55 45" fill="none" stroke="#e8a317" stroke-width="5.5" stroke-linecap="round"/><path d="M7 45 H57" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/><circle cx="23" cy="33" r="3.6" fill="#ffffff"/><circle cx="32" cy="30" r="4.2" fill="#ffffff"/><circle cx="41" cy="33" r="3.6" fill="#ffffff"/><path d="M18 42.5 a5 4.6 0 0 1 10 0 Z M26.4 42.5 a5.6 5.4 0 0 1 11.2 0 Z M36 42.5 a5 4.6 0 0 1 10 0 Z" fill="#ffffff"/></svg>
-      <span><b>AfriPont Associations</b><span>Le pont de la confiance</span></span>
-    </a>
-    <span class="chip">Bientôt disponible</span>
-  </div>
-</header>
+<div class="util"><div class="wrap"><span>Abidjan · Côte d'Ivoire</span><a href="mailto:contact@afripont.com">contact@afripont.com</a></div></div>
+<header><div class="wrap"><svg viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#123B6D"/><path d="M9 45 Q32 -2 55 45" fill="none" stroke="#2BB57B" stroke-width="5.5" stroke-linecap="round"/><path d="M7 45 H57" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/><circle cx="23" cy="33" r="3.6" fill="#ffffff"/><circle cx="32" cy="30" r="4.2" fill="#ffffff"/><circle cx="41" cy="33" r="3.6" fill="#ffffff"/><path d="M18 42.5 a5 4.6 0 0 1 10 0 Z M26.4 42.5 a5.6 5.4 0 0 1 11.2 0 Z M36 42.5 a5 4.6 0 0 1 10 0 Z" fill="#ffffff"/></svg><div><b style="font-size:1.35rem">AfriPont</b><small style="color:var(--green-ink);font-weight:700;letter-spacing:.04em">Associations</small></div><span class="pill">Bientôt</span></div></header>
+
+<div class="hero"><div class="wrap">
+<h1>Bienvenue sur <em>AfriPont</em></h1>
+<p class="def"><b>AfriPont est une application qui aide les associations à suivre les cotisations de leurs membres.</b> Chaque membre paie par Mobile Money, le trésorier confirme, et chacun reçoit son reçu. Tout est clair, pour tous.</p>
+</div></div>
+
+<div class="wrap">
+<div class="login">
+<h2>Accès à mon association <span class="soon">Bientôt</span></h2>
+<div class="fld">📱 Numéro de téléphone</div>
+<div class="fld">🔒 Code secret (4 chiffres)</div>
+<span class="go">Se connecter</span>
+<a class="alt" href="mailto:contact@afripont.com?subject=Cr%C3%A9er%20mon%20association%20sur%20AfriPont">➕ Créer mon association (phase pilote gratuite)</a>
+</div>
+</div>
 
 <main>
-  <div class="hero">
-    <div class="wrap">
-      <div>
-        <h1>Les cotisations de votre association, <em>claires pour tous.</em></h1>
-        <p class="lead">Le bureau suit qui a payé, confirme les paiements Mobile Money et envoie les rappels. Chaque membre voit sa situation et reçoit son reçu, depuis son téléphone, sans rien installer.</p>
-        <ul class="who">
-          <li>Mutuelles</li><li>Amicales</li><li>Anciens élèves</li><li>Églises</li><li>Associations de quartier</li>
-        </ul>
-        <div class="cta">
-          <a class="btn" href="mailto:contact@afripont.com?subject=Association%20pilote%20AfriPont">Inscrire mon association au pilote</a>
-          <small>Phase pilote gratuite à Abidjan</small>
-        </div>
-      </div>
+<section><div class="wrap">
+<h2>Les espaces du portail</h2>
+<div class="esp">
+<div class="e"><i>👔</i><b>Président</b><span>Tout voir, donner les rôles</span></div>
+<div class="e"><i>🧮</i><b>Trésorier</b><span>Confirmer, relancer</span></div>
+<div class="e"><i>🔍</i><b>Commissaire aux comptes</b><span>Contrôler les comptes</span></div>
+<div class="e"><i>🙋🏾</i><b>Membre</b><span>Payer, voir mes reçus</span></div>
+<div class="e wide"><i>🧾</i><b>Vérifier un reçu <em>Bientôt</em></b><span>Tapez le numéro du reçu pour savoir s'il est authentique.</span></div>
+</div>
+</div></section>
 
-      <aside class="receipt" aria-label="Exemple de suivi des cotisations">
-        <span class="tag">Cotisation d'octobre</span>
-        <h3>Mutuelle de Bonoua</h3>
-        <span class="sub">5 000 FCFA par membre, à payer avant le 31/10</span>
-        <div class="bar"><i></i></div>
-        <div class="count"><span><b>87</b> sur 120 ont cotisé</span><span>435 000 FCFA reçus</span></div>
-        <div class="rows">
-          <div><span>Reçu n° 2026-0412</span><b>5 000 FCFA</b></div>
-          <div><span>Orange Money · réf. vérifiée</span><b>Confirmé</b></div>
-        </div>
-        <span class="stamp">Payé · merci</span>
-        <p class="example">Exemple d'écran, chiffres fictifs.</p>
-      </aside>
-    </div>
-  </div>
+<section style="padding-top:4px"><div class="wrap">
+<h2>Cotiser en 3 étapes</h2>
+<div class="steps">
+<div class="st"><u>1</u><div><b>Je paie</b><span>Orange, MTN, Moov ou Wave</span></div></div>
+<div class="st"><u>2</u><div><b>Le trésorier confirme</b><span>Il vérifie que l'argent est bien arrivé sur le compte, pas seulement la capture</span></div></div>
+<div class="st"><u>3</u><div><b>Je reçois mon reçu</b><span>Tout le monde voit la caisse</span></div></div>
+</div>
+<p class="info"><b>Bon à savoir :</b> l'argent va directement sur le compte Mobile Money de l'association. AfriPont n'y touche jamais.</p>
+<div class="ctrl"><h3>Le trésorier aussi est contrôlé.</h3><ul>
+<li>Personne ne valide son propre paiement.</li>
+<li>Le commissaire aux comptes voit chaque mouvement.</li>
+<li>Chaque mois, le solde du compte est comparé à celui de l'appli.</li></ul></div>
+</div></section>
 
-  <section class="band">
-    <div class="wrap">
-      <span class="kicker">Comment ça marche</span>
-      <h2>Chaque franc compté, chaque membre informé.</h2>
-      <ol class="steps">
-        <li><h3>Le bureau crée l'association</h3><p>Le président ajoute l'association et invite les membres avec un lien WhatsApp. Il donne les rôles : trésorier, secrétaire, commissaire aux comptes.</p></li>
-        <li><h3>Le membre paie et le déclare</h3><p>Il paie sur le numéro Mobile Money de l'association, puis envoie la capture et la référence du paiement dans AfriPont.</p></li>
-        <li><h3>Le trésorier confirme</h3><p>Le paiement est validé, le membre reçoit un reçu numéroté. Tout le monde voit le résumé de la caisse, personne n'est exposé.</p></li>
-      </ol>
-      <div class="money">
-        <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="none" stroke="var(--green)" stroke-width="3"/><path d="M15 25 l6 6 l12 -14" fill="none" stroke="var(--green)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <p><b>AfriPont ne touche jamais votre argent.</b> Les cotisations vont directement sur le compte Mobile Money de votre association (Orange Money, MTN MoMo, Moov Money, Wave). AfriPont sert seulement à tenir les comptes clairs et à informer les membres.</p>
-      </div>
-    </div>
-  </section>
+<section style="padding-top:4px"><div class="wrap">
+<h2>Prix par mois</h2>
+<div class="prices">
+<div class="pc free"><small>Jusqu'à 10 membres</small><b>Gratuit</b></div>
+<div class="pc"><small>11 à 20 membres</small><b>2 000 F</b></div>
+<div class="pc"><small>21 à 50 membres</small><b>3 000 F</b></div>
+<div class="pc"><small>51 à 100 membres</small><b>5 000 F</b></div>
+<div class="pc"><small>101 à 150 membres</small><b>10 000 F</b></div>
+<div class="pc"><small>151 à 200 membres</small><b>15 000 F</b></div>
+<div class="pc"><small>Plus de 200</small><b>20 000 F</b></div>
+</div>
+<p class="note">Prix en FCFA. Le premier mois est offert.</p>
+</div></section>
 
-  <section>
-    <div class="wrap">
-      <span class="kicker">Abonnement</span>
-      <h2>Un prix par mois, selon la taille de l'association</h2>
-      <div class="prices">
-        <table>
-          <thead><tr><th>Nombre de membres</th><th>Par mois</th></tr></thead>
-          <tbody>
-            <tr><td>Jusqu'à 10</td><td class="free">Gratuit</td></tr>
-            <tr><td>11 à 20</td><td>2 000 FCFA</td></tr>
-            <tr><td>21 à 50</td><td>3 000 FCFA</td></tr>
-            <tr><td>51 à 100</td><td>5 000 FCFA</td></tr>
-            <tr><td>101 à 150</td><td>10 000 FCFA</td></tr>
-            <tr><td>151 à 200</td><td>15 000 FCFA</td></tr>
-            <tr><td>Plus de 200</td><td>20 000 FCFA</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="note">Pendant la phase pilote, les associations test ne paient rien.</p>
-    </div>
-  </section>
+<section style="padding-top:4px"><div class="wrap">
+<div class="pay">Paiement des cotisations par<div><span>Orange Money</span><span>MTN MoMo</span><span>Moov Money</span><span>Wave</span><span>Espèces</span></div></div>
+</div></section>
 
-  <section class="band">
-    <div class="wrap contact">
-      <div>
-        <span class="kicker">Nous écrire</span>
-        <h2>Votre association veut essayer ?</h2>
-      </div>
-      <span class="mail">contact@afripont.com</span>
-    </div>
-  </section>
+<section style="padding-top:4px"><div class="wrap">
+<div class="contact"><h2 style="margin:0">Votre association veut essayer ?</h2><a href="mailto:contact@afripont.com">contact@afripont.com</a></div>
+</div></section>
 </main>
 
-<footer>
-  <div class="wrap">
-    <b>AfriPont, le pont de la confiance.</b>
-    <span>Abidjan, Côte d'Ivoire · Société AFRIPONT DIGITAL SARLU en cours de création</span>
-    <span>Responsable de la publication : KASSI N'guetta Patrick Eloi · contact@afripont.com</span>
-    <span>Hébergement du site : GitHub, Inc. (GitHub Pages) · Ce site n'utilise ni cookie ni suivi des visiteurs.</span>
-    <span>© 2026 AfriPont</span>
-  </div>
-</footer>
-</body>
-</html>
+<footer><div class="wrap">
+<b>AfriPont, le pont de la confiance.</b>
+<span>Abidjan, Côte d'Ivoire · Société AFRIPONT DIGITAL SARLU en cours de création</span>
+<span>Responsable de la publication : KASSI N'guetta Patrick Eloi · contact@afripont.com</span>
+<span>Hébergement du site : GitHub, Inc. (GitHub Pages) · Ce site n'utilise ni cookie ni suivi des visiteurs.</span>
+<span>© 2026 AfriPont</span>
+</div></footer>
+</body></html>
