@@ -1,0 +1,722 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>Démo AfriPont Associations</title><meta name="robots" content="noindex"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout : une seule colonne façon téléphone (max 440px), en-tête en verre, barre d'onglets liquide en bas. */
+:root{
+  --bg:#F4F7FB; --bg-glow1:rgba(30,158,106,.18); --bg-glow2:rgba(18,59,109,.18);
+  --surface:#FFFFFF; --fg:#0F1E33; --muted:#4E5D72; --line:rgba(15,30,51,.10);
+  --green:#147A51; --gold:#123B6D; --blue:#1F86B8; --coral:#D45A2E; --danger:#C2412D; --ok:#147A51;
+  --glass:rgba(255,255,255,.58); --glass-line:rgba(255,255,255,.75); --glass-shadow:rgba(15,30,51,.14);
+  --pill:#FFFFFF; --field:#F6F8FC; --on-accent:#FFFFFF;
+  --f-display:"Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+  --f-body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --r:18px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0B1524; --bg-glow1:rgba(60,196,137,.18); --bg-glow2:rgba(91,143,214,.18);
+  --surface:#12213A; --fg:#E8EEF7; --muted:#A6B4C8; --line:rgba(232,238,247,.10);
+  --green:#3CC489; --gold:#7FB2F0; --blue:#4CB3E6; --coral:#F07A4C; --danger:#F06A55; --ok:#3CC489;
+  --glass:rgba(18,33,58,.55); --glass-line:rgba(255,255,255,.10); --glass-shadow:rgba(0,0,0,.45);
+  --pill:rgba(255,255,255,.12); --field:#0E1A2E; --on-accent:#07110C; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0B1524; --bg-glow1:rgba(60,196,137,.18); --bg-glow2:rgba(91,143,214,.18);
+  --surface:#12213A; --fg:#E8EEF7; --muted:#A6B4C8; --line:rgba(232,238,247,.10);
+  --green:#3CC489; --gold:#7FB2F0; --blue:#4CB3E6; --coral:#F07A4C; --danger:#F06A55; --ok:#3CC489;
+  --glass:rgba(18,33,58,.55); --glass-line:rgba(255,255,255,.10); --glass-shadow:rgba(0,0,0,.45);
+  --pill:rgba(255,255,255,.12); --field:#0E1A2E; --on-accent:#07110C; color-scheme:dark}
+
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.45;
+  transition:background-color .5s ease,color .5s ease;overflow-x:hidden}
+.app{position:relative;max-width:440px;margin:0 auto;min-height:100%;padding-inline:16px;padding-block:0 120px;isolation:isolate}
+.app::before{content:"";position:fixed;inset:-20% -30% auto -30%;height:70%;z-index:-1;pointer-events:none;
+  background:radial-gradient(40% 50% at 25% 35%,var(--bg-glow1),transparent 70%),radial-gradient(40% 45% at 80% 20%,var(--bg-glow2),transparent 70%);
+  transition:opacity .5s}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0}
+.num{font-variant-numeric:tabular-nums}
+.demo-tag{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- Verre ---------- */
+.glass{background:var(--glass);border:1px solid var(--glass-line);
+  -webkit-backdrop-filter:blur(18px) saturate(170%);backdrop-filter:blur(18px) saturate(170%);
+  box-shadow:0 18px 40px -20px var(--glass-shadow),inset 0 1px 0 var(--glass-line);
+  transition:background-color .5s ease,border-color .5s ease,box-shadow .5s ease}
+
+/* ---------- Inscription ---------- */
+.signup{padding-block:28px 40px;display:flex;flex-direction:column;gap:22px}
+.brand{display:flex;align-items:center;gap:10px}
+.mark{width:40px;height:40px;flex:none;border-radius:11px;display:block;box-shadow:0 6px 14px -8px rgba(0,0,0,.5)}
+.brand b{font-family:var(--f-display);font-size:18px;font-weight:800;letter-spacing:-.01em}
+.brand small{display:block;color:var(--muted);font-size:12px}
+.signup h1{font-size:30px;line-height:1.1;letter-spacing:-.02em}
+.signup p.lead{margin:6px 0 0;color:var(--muted)}
+.card{border-radius:24px;padding:20px;display:flex;flex-direction:column;gap:16px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:13px;font-weight:600}
+.input{position:relative;display:flex;align-items:center;gap:8px;background:var(--field);border:1.5px solid var(--line);
+  border-radius:14px;padding:0 12px;height:48px;transition:border-color .25s,box-shadow .25s,background-color .5s}
+.input:focus-within{border-color:var(--green);box-shadow:0 0 0 4px color-mix(in srgb,var(--green) 20%,transparent),0 0 24px -4px color-mix(in srgb,var(--green) 45%,transparent)}
+.input input{flex:1;min-width:0;border:0;background:transparent;font:inherit;color:var(--fg);outline:none;height:100%}
+.input .pre{color:var(--muted);font-weight:600}
+.input .ok{opacity:0;transform:scale(.4);transition:.3s cubic-bezier(.3,1.6,.5,1);color:var(--ok);font-weight:700}
+.input.valid .ok{opacity:1;transform:none}
+.pin{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.pin input{height:56px;text-align:center;font-family:var(--f-display);font-size:24px;font-weight:800;color:var(--fg);
+  background:var(--field);border:1.5px solid var(--line);border-radius:14px;outline:none;min-width:0;
+  transition:border-color .25s,box-shadow .25s,transform .2s}
+.pin input:focus{border-color:var(--green);box-shadow:0 0 0 4px color-mix(in srgb,var(--green) 20%,transparent);transform:translateY(-2px)}
+.pin input.filled{border-color:color-mix(in srgb,var(--green) 55%,var(--line))}
+.meter{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:4px}
+.meter i{height:5px;border-radius:9px;background:var(--line);position:relative;overflow:hidden}
+.meter i::after{content:"";position:absolute;inset:0;transform:scaleX(0);transform-origin:left;background:var(--c,var(--green));transition:transform .45s cubic-bezier(.2,.8,.2,1),background-color .3s}
+.meter i.on::after{transform:scaleX(1)}
+.meter-msg{font-size:12.5px;color:var(--muted);min-height:18px;transition:color .3s}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--muted)}
+.check input{width:18px;height:18px;accent-color:var(--green);margin-top:1px}
+.cta{height:52px;border:0;border-radius:16px;font-weight:700;font-size:16px;color:#fff;
+  background:linear-gradient(120deg,#123B6D,#1E9E6A);
+  box-shadow:0 12px 26px -12px var(--green);transition:opacity .3s,transform .2s,filter .3s;position:relative;overflow:hidden}
+.cta:disabled{opacity:.38;filter:saturate(.4);cursor:not-allowed;box-shadow:none}
+.cta:not(:disabled):active{transform:scale(.98)}
+.cta.loading{color:transparent}
+.cta.loading::after{content:"";position:absolute;inset:0;margin:auto;width:22px;height:22px;border-radius:50%;
+  border:3px solid color-mix(in srgb,var(--on-accent) 35%,transparent);border-top-color:var(--on-accent);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.skip{background:none;border:0;color:var(--green);font-weight:600;padding:6px;align-self:center}
+
+/* ---------- En-tête ---------- */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;padding-block:12px 6px}
+.topbar{border-radius:22px;padding:10px 10px 10px 14px;display:flex;align-items:center;gap:10px}
+.topbar .who{flex:1;min-width:0}
+.topbar .who b{font-family:var(--f-display);font-size:16px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar .who small{color:var(--muted);font-size:12px}
+.theme-btn{width:44px;height:44px;border-radius:14px;border:1px solid var(--line);background:var(--pill);display:grid;place-items:center;position:relative;overflow:hidden;transition:background-color .5s}
+.theme-btn svg{position:absolute;width:20px;height:20px;transition:transform .55s cubic-bezier(.5,1.6,.4,1),opacity .35s}
+.theme-btn .moon{transform:translateY(30px) rotate(-60deg);opacity:0}
+:root[data-dark="1"] .theme-btn .sun{transform:translateY(-30px) rotate(60deg);opacity:0}
+:root[data-dark="1"] .theme-btn .moon{transform:none;opacity:1}
+
+/* ---------- Écrans ---------- */
+.screen{display:flex;flex-direction:column;gap:16px;padding-top:10px}
+.screen[hidden]{display:none}
+.enter{animation:enter .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes enter{from{opacity:.0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;transition:background-color .5s,border-color .5s}
+.hero{position:relative;overflow:hidden;border-radius:24px;padding:20px;color:#F4FBF7;
+  background:linear-gradient(140deg,#0C2A50 0%,#123B6D 50%,#1E9E6A 130%)}
+.hero .demo-tag{color:rgba(244,251,247,.75)}
+.hero .bal{font-family:var(--f-display);font-size:38px;font-weight:800;letter-spacing:-.02em;margin-top:4px}
+.hero .bal small{font-size:16px;font-weight:600;opacity:.8}
+.hero .row{display:flex;gap:18px;margin-top:14px;font-size:13px;flex-wrap:wrap}
+.hero .row b{display:block;font-size:16px}
+.hero::after{content:"";position:absolute;right:-50px;top:-50px;width:180px;height:180px;border-radius:50%;border:28px solid rgba(255,255,255,.07)}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.sec-h h2{font-size:18px}
+.sec-h span{color:var(--muted);font-size:13px;white-space:nowrap}
+.sec-h h2{min-width:0}
+.bar{height:10px;border-radius:9px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--green),var(--gold));width:0;transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.split{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-top:8px}
+.split b{color:var(--fg)}
+.btn{height:46px;border-radius:14px;border:1px solid var(--line);background:var(--surface);font-weight:600;padding-inline:14px;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:background-color .5s,transform .15s}
+.btn:active{transform:scale(.98)}
+.btn.primary{background:var(--green);border-color:transparent;color:var(--on-accent)}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.list{display:flex;flex-direction:column}
+.item{display:flex;align-items:center;gap:12px;padding-block:11px;border-top:1px solid var(--line)}
+.item:first-child{border-top:0}
+.av{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-weight:700;font-size:13px;flex:none;
+  background:color-mix(in srgb,var(--c,var(--green)) 16%,transparent);color:var(--c,var(--green))}
+.item .t{flex:1;min-width:0}
+.item .t b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item .t small{color:var(--muted);font-size:12.5px}
+.chip{font-size:12px;font-weight:700;padding:4px 9px;border-radius:99px;white-space:nowrap}
+.chip.ok{background:color-mix(in srgb,var(--ok) 15%,transparent);color:var(--ok)}
+.chip.late{background:color-mix(in srgb,var(--danger) 14%,transparent);color:var(--danger)}
+.amt{font-weight:700}
+
+/* ---------- Filtre en verre à pastille glissante ---------- */
+.seg{position:relative;display:grid;grid-template-columns:repeat(3,1fr);border-radius:99px;padding:5px}
+.seg button{position:relative;z-index:1;border:0;background:none;height:38px;border-radius:99px;font-weight:600;font-size:14px;color:var(--muted);transition:color .3s}
+.seg button[aria-selected="true"]{color:var(--fg)}
+.seg .slider{position:absolute;top:5px;bottom:5px;left:5px;width:calc((100% - 10px)/3);border-radius:99px;background:var(--pill);
+  box-shadow:0 6px 16px -6px var(--glass-shadow),inset 0 1px 0 var(--glass-line);transition:transform .5s cubic-bezier(.5,1.5,.45,1),background-color .5s}
+.count{font-size:11px;margin-left:4px;opacity:.7}
+
+/* ---------- Collectes / annonces ---------- */
+.collect h3{font-size:17px}
+.collect p{margin:4px 0 12px;color:var(--muted);font-size:13.5px}
+.note{display:flex;gap:12px}
+.note .d{flex:none;width:52px;text-align:center;border-radius:12px;padding-block:6px;background:color-mix(in srgb,var(--coral) 13%,transparent);color:var(--coral)}
+.note .d b{display:block;font-family:var(--f-display);font-size:20px;line-height:1}
+.note .d small{font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+.note p{margin:3px 0 0;color:var(--muted);font-size:13.5px}
+
+/* ---------- Barre d'onglets liquide ---------- */
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:10;padding-inline:16px;padding-block:0 calc(14px + env(safe-area-inset-bottom,0px));pointer-events:none}
+.tabs{pointer-events:auto;position:relative;max-width:408px;margin:0 auto;height:68px;border-radius:26px;display:grid;grid-template-columns:repeat(4,1fr)}
+.tabs svg.goo{position:absolute;width:0;height:0}
+.blobs{position:absolute;inset:0;filter:url(#goo);pointer-events:none}
+.blob{position:absolute;top:10px;left:0;width:48px;height:48px;border-radius:50%;background:var(--bc,var(--green));
+  box-shadow:0 0 22px 2px color-mix(in srgb,var(--bc,var(--green)) 55%,transparent);
+  transition:transform .55s cubic-bezier(.6,1.6,.4,1),background-color .4s}
+.blob.trail{transition:transform .75s cubic-bezier(.5,1.3,.4,1),background-color .4s;width:38px;height:38px;top:15px}
+.blob.squish{animation:squish .55s ease}
+@keyframes squish{0%{border-radius:50%}35%{border-radius:42% 58% 50% 50% / 60% 40% 60% 40%;scale:1.25 .82}70%{scale:.92 1.08}100%{border-radius:50%;scale:1 1}}
+.tab{position:relative;z-index:2;border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--muted);transition:color .3s}
+.tab svg{width:22px;height:22px;transition:transform .45s cubic-bezier(.5,1.8,.4,1)}
+.tab span{font-size:10.5px;font-weight:600;transition:opacity .3s}
+.tab[aria-selected="true"]{color:var(--on-accent)}
+.tab[aria-selected="true"] svg{transform:translateY(5px) scale(1.08)}
+.tab[aria-selected="true"] span{opacity:0}
+
+.toast{position:fixed;left:50%;bottom:104px;transform:translate(-50%,20px);opacity:0;z-index:20;max-width:min(400px,calc(100% - 32px));
+  border-radius:16px;padding:12px 16px;font-size:14px;font-weight:500;transition:.35s cubic-bezier(.2,.8,.2,1);pointer-events:none}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- Rôles, validation, feuille du bas ---------- */
+.role-btn{display:inline-flex;align-items:center;gap:4px;border:0;background:none;padding:0;color:var(--green);font-weight:700;font-size:12px}
+.role-btn::after{content:"▾";font-size:10px}
+.rbadge{font-size:11px;font-weight:700;padding:1px 7px;border-radius:99px;background:color-mix(in srgb,var(--gold) 16%,transparent);color:var(--gold);margin-right:4px;white-space:nowrap;display:inline-block}
+.ro{font-size:12px;font-weight:700;color:var(--blue);background:color-mix(in srgb,var(--blue) 13%,transparent);padding:6px 10px;border-radius:12px;text-align:center}
+.mine{display:flex;align-items:center;gap:12px}
+.mine .t{flex:1;min-width:0}
+.mine .t small{color:var(--muted);font-size:12.5px;display:block}
+.proof{display:flex;gap:12px;align-items:flex-start;padding-block:12px;border-top:1px solid var(--line)}
+.proof:first-of-type{border-top:0}
+.proof img{width:64px;height:96px;object-fit:cover;border-radius:10px;border:1px solid var(--line);flex:none;cursor:zoom-in;background:var(--field)}
+.proof .t{flex:1;min-width:0}
+.proof .t b{display:block}
+.proof .t small{display:block;color:var(--muted);font-size:12.5px}
+.proof .row2{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.proof .row2 .btn{height:38px;font-size:13.5px;padding-inline:12px}
+.warn{font-size:12.5px;color:var(--muted);margin:0}
+.scrim{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.42);display:flex;align-items:flex-end;justify-content:center;opacity:0;transition:opacity .3s}
+.scrim.show{opacity:1}
+.sheet{width:100%;max-width:440px;max-height:88%;overflow:auto;background:var(--surface);border-radius:26px 26px 0 0;padding-inline:18px;padding-block:10px calc(22px + env(safe-area-inset-bottom,0px));
+  transform:translateY(40px);transition:transform .4s cubic-bezier(.2,.9,.2,1);display:flex;flex-direction:column;gap:14px}
+.scrim.show .sheet{transform:none}
+.sheet .grab{width:42px;height:5px;border-radius:9px;background:var(--line);align-self:center}
+.sheet h2{font-size:20px}
+.sheet p{margin:0;color:var(--muted);font-size:13.5px}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;gap:12px;align-items:flex-start;text-align:left;border:1.5px solid var(--line);background:var(--field);border-radius:14px;padding:12px}
+.opt[aria-pressed="true"]{border-color:var(--green);background:color-mix(in srgb,var(--green) 9%,var(--field))}
+.opt b{display:block}
+.opt small{color:var(--muted);font-size:12.5px}
+.drop{border:1.5px dashed color-mix(in srgb,var(--green) 50%,var(--line));border-radius:14px;padding:14px;display:flex;gap:12px;align-items:center;background:var(--field)}
+.drop img{width:56px;height:84px;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
+.drop .t{flex:1;min-width:0;font-size:13px;color:var(--muted)}
+.drop label{color:var(--green);font-weight:700;cursor:pointer}
+.err{color:var(--danger);font-size:12.5px;min-height:16px}
+.zoom img{width:100%;border-radius:14px;border:1px solid var(--line)}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
+  .blobs{filter:none}
+}
+/* Téléphones modestes : on retire le flou et le filtre liquide, l'effet reste lisible. */
+.lite .glass{-webkit-backdrop-filter:none;backdrop-filter:none;background:var(--surface)}
+.lite .blobs{filter:none}
+.lite .blob.trail{display:none}
+.acc{display:flex;align-items:center;gap:12px;text-align:left;width:100%;border:1px solid var(--line);background:var(--surface);border-radius:16px;padding:10px 12px;transition:border-color .2s,transform .15s}
+.acc:active{transform:scale(.98)}.acc:hover{border-color:var(--green)}.acc .t{flex:1;min-width:0}.acc .t b{display:block}.acc .t small{color:var(--muted);font-size:12.5px}
+.acc .go{color:var(--green);font-weight:700;font-size:13px;white-space:nowrap}.accs{display:flex;flex-direction:column;gap:8px}
+.hint{font-size:12.5px;color:var(--muted);background:color-mix(in srgb,var(--gold) 8%,transparent);border-radius:12px;padding:10px 12px}
+.yn{display:grid;grid-template-columns:1fr 1fr;gap:8px}.yn button{height:46px;border-radius:14px;border:1.5px solid var(--line);background:var(--field);font-weight:700}
+.yn button[aria-pressed="true"]{border-color:var(--green);background:color-mix(in srgb,var(--green) 12%,var(--field));color:var(--green)}
+.demobar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:12px 0 0;padding:10px 14px;border-radius:14px;background:#123B6D;color:#fff;font-size:13px}.demobar a{color:#7FE0B4;font-weight:700;text-decoration:none;white-space:nowrap}
+.vu{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:var(--fg);margin-top:8px}.vu input{width:18px;height:18px;accent-color:var(--green);margin:0;flex:none}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.pin1 input{letter-spacing:.6em;font-family:var(--f-display);font-weight:800;font-size:20px}
+</style>
+
+<div class="app" id="app">
+  <div class="demobar" role="note"><span><b>Démonstration</b> · données fictives, rien n'est envoyé</span><a href="./">← afripont.com</a></div>
+
+  <!-- ===== Connexion ===== -->
+  <section class="signup" id="login" aria-label="Se connecter">
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#123B6D"/><path d="M9 45 Q32 -2 55 45" fill="none" stroke="#2BB57B" stroke-width="5.5" stroke-linecap="round"/><path d="M7 45 H57" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/><circle cx="23" cy="33" r="3.6" fill="#ffffff"/><circle cx="32" cy="30" r="4.2" fill="#ffffff"/><circle cx="41" cy="33" r="3.6" fill="#ffffff"/><path d="M18 42.5 a5 4.6 0 0 1 10 0 Z M26.4 42.5 a5.6 5.4 0 0 1 11.2 0 Z M36 42.5 a5 4.6 0 0 1 10 0 Z" fill="#ffffff"/></svg>
+      <div><b>AfriPont</b><small>Espace Associations</small></div>
+    </div>
+    <div><h1>Se connecter</h1><p class="lead">Entrez votre numéro et votre code secret.</p></div>
+    <form class="card glass" id="lform" novalidate>
+      <div class="field"><label for="l-tel">Numéro de téléphone</label><div class="input"><span class="pre">+225</span><input id="l-tel" inputmode="numeric" placeholder="07 00 00 00 10" maxlength="14"></div></div>
+      <div class="field"><label for="l-pin">Code secret</label><div class="input pin1"><input id="l-pin" inputmode="numeric" type="password" maxlength="4" placeholder="••••"></div><div class="err" id="l-err" aria-live="polite"></div></div>
+      <button class="cta" type="submit">Se connecter</button>
+    </form>
+    <div class="panel" style="display:flex;flex-direction:column;gap:12px">
+      <div class="sec-h"><h2>Comptes de démo déjà enregistrés</h2></div>
+      <p class="hint">Mutuelle de Kotobi, section Abidjan. Code secret de tous les comptes : <b>4829</b>. Touchez un compte pour entrer directement.</p>
+      <div class="accs"><button class="acc" type="button" data-acc="0"><div class="av" style="--c:var(--green)">KY</div><div class="t"><b>Kouassi Yao Jean</b><small><span data-rn="pres"></span> · 07 00 00 00 10</small></div><span class="go">Entrer →</span></button><button class="acc" type="button" data-acc="1"><div class="av" style="--c:var(--gold)">TM</div><div class="t"><b>Traoré Mamadou</b><small><span data-rn="tres"></span> · 07 00 00 00 11</small></div><span class="go">Entrer →</span></button><button class="acc" type="button" data-acc="2"><div class="av" style="--c:var(--blue)">KB</div><div class="t"><b>Konan Brou Serge</b><small><span data-rn="cac"></span> · 07 00 00 00 12</small></div><span class="go">Entrer →</span></button><button class="acc" type="button" data-acc="3"><div class="av" style="--c:var(--green)">AK</div><div class="t"><b>Aya Koffi Marie</b><small><span data-rn="sec"></span> · 07 00 00 00 13</small></div><span class="go">Entrer →</span></button><button class="acc" type="button" data-acc="4"><div class="av" style="--c:var(--coral)">KA</div><div class="t"><b>Kouamé Adjoua</b><small><span data-rn="com"></span> · 07 00 00 00 14</small></div><span class="go">Entrer →</span></button><button class="acc" type="button" data-acc="5"><div class="av" style="--c:var(--green)">OM</div><div class="t"><b>Ouattara Mariam</b><small><span data-rn="sect"></span> · 07 00 00 00 15</small></div><span class="go">Entrer →</span></button><button class="acc" type="button" data-acc="6"><div class="av" style="--c:var(--coral)">BF</div><div class="t"><b>Bamba Fatou</b><small><span data-rn="mem"></span> · 07 00 00 00 16</small></div><span class="go">Entrer →</span></button></div>
+    </div>
+    <button class="skip" id="to-signup" type="button">Créer mon association →</button>
+  </section>
+
+  <!-- ===== Inscription ===== -->
+  <section class="signup" id="signup" aria-label="Créer un compte" hidden>
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#123B6D"/><path d="M9 45 Q32 -2 55 45" fill="none" stroke="#2BB57B" stroke-width="5.5" stroke-linecap="round"/><path d="M7 45 H57" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/><circle cx="23" cy="33" r="3.6" fill="#ffffff"/><circle cx="32" cy="30" r="4.2" fill="#ffffff"/><circle cx="41" cy="33" r="3.6" fill="#ffffff"/><path d="M18 42.5 a5 4.6 0 0 1 10 0 Z M26.4 42.5 a5.6 5.4 0 0 1 11.2 0 Z M36 42.5 a5 4.6 0 0 1 10 0 Z" fill="#ffffff"/></svg>
+      <div><b>AfriPont</b><small>Espace Associations</small></div>
+    </div>
+    <div>
+      <h1>Créez l'espace de votre association</h1>
+      <p class="lead">Mutuelle, amicale, église ou tontine : suivez qui a cotisé, sans cahier.</p>
+    </div>
+    <form class="card glass" id="form" novalidate>
+      <div class="field">
+        <label for="f-name">Votre nom complet</label>
+        <div class="input" id="w-name"><input id="f-name" autocomplete="name" placeholder="Ex. Kouassi Yao Jean"><span class="ok" aria-hidden="true">✓</span></div>
+      </div>
+      <div class="field">
+        <label for="f-tel">Numéro de téléphone</label>
+        <div class="input" id="w-tel"><span class="pre">+225</span><input id="f-tel" inputmode="numeric" autocomplete="tel-national" placeholder="07 00 00 00 00" maxlength="14"><span class="ok" aria-hidden="true">✓</span></div>
+      </div>
+      <div class="field">
+        <label for="f-asso">Nom de l'association</label>
+        <div class="input" id="w-asso"><input id="f-asso" placeholder="Ex. Mutuelle de Kotobi, section Abidjan"><span class="ok" aria-hidden="true">✓</span></div>
+      </div>
+      <div class="field">
+        <label>Êtes-vous le président de l'association ?</label>
+        <div class="yn" id="yn"><button type="button" data-yn="1" aria-pressed="false">Oui</button><button type="button" data-yn="0" aria-pressed="false">Non</button></div>
+        <small id="yn-help" style="color:var(--muted);font-size:12.5px"></small>
+      </div>
+      <div class="field" id="pres-field" hidden>
+        <label for="f-pres">Numéro du président</label>
+        <div class="input" id="w-pres"><span class="pre">+225</span><input id="f-pres" inputmode="numeric" placeholder="07 00 00 00 00" maxlength="14"><span class="ok" aria-hidden="true">✓</span></div>
+      </div>
+      <div class="field">
+        <label for="p0">Code secret à 4 chiffres</label>
+        <div class="pin" id="pin">
+          <input id="p0" inputmode="numeric" maxlength="1" aria-label="Chiffre 1" type="password">
+          <input id="p1" inputmode="numeric" maxlength="1" aria-label="Chiffre 2" type="password">
+          <input id="p2" inputmode="numeric" maxlength="1" aria-label="Chiffre 3" type="password">
+          <input id="p3" inputmode="numeric" maxlength="1" aria-label="Chiffre 4" type="password">
+        </div>
+        <div class="meter" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="meter-msg" id="meter-msg" aria-live="polite">Évitez 1234, 0000 ou votre année de naissance.</div>
+      </div>
+      <label class="check" for="f-cgu"><input type="checkbox" id="f-cgu"> J'accepte les conditions d'utilisation d'AfriPont.</label>
+      <label class="check" for="f-rgpd"><input type="checkbox" id="f-rgpd"> J'accepte la politique de confidentialité (mes données, qui les voit, combien de temps).</label>
+      <label class="check" for="f-age"><input type="checkbox" id="f-age"> J'ai 18 ans ou plus.</label>
+      <button class="cta" id="cta" type="submit" disabled>Créer mon compte</button>
+    </form>
+    <button class="skip" id="skip" type="button">← J'ai déjà un compte</button>
+  </section>
+
+  <!-- ===== Appli ===== -->
+  <div id="main" hidden>
+    <header class="top">
+      <div class="topbar glass">
+        <svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#123B6D"/><path d="M9 45 Q32 -2 55 45" fill="none" stroke="#2BB57B" stroke-width="5.5" stroke-linecap="round"/><path d="M7 45 H57" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/><circle cx="23" cy="33" r="3.6" fill="#ffffff"/><circle cx="32" cy="30" r="4.2" fill="#ffffff"/><circle cx="41" cy="33" r="3.6" fill="#ffffff"/><path d="M18 42.5 a5 4.6 0 0 1 10 0 Z M26.4 42.5 a5.6 5.4 0 0 1 11.2 0 Z M36 42.5 a5 4.6 0 0 1 10 0 Z" fill="#ffffff"/></svg>
+        <div class="who"><b id="asso-name">Mutuelle de Kotobi, section Abidjan</b><small><button class="role-btn" id="role-btn" type="button" aria-label="Changer de rôle pour la démo"><span id="role-name">Trésorier</span></button> · <span id="user-name">Kouassi Yao Jean</span></small></div>
+        <button class="theme-btn" id="theme" type="button" aria-label="Passer en mode sombre">
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2" fill="currentColor" stroke="none"/><path d="M12 2.5v2.2M12 19.3v2.2M4.3 4.3l1.6 1.6M18.1 18.1l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.3 19.7l1.6-1.6M18.1 5.9l1.6-1.6"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1Z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Accueil -->
+    <section class="screen" id="s-home" aria-label="Accueil">
+      <div class="hero" data-fin>
+        <div class="demo-tag">Caisse de l'association · exemple</div>
+        <div class="bal num">1 245 000 <small>FCFA</small></div>
+        <div class="row num"><div>Entrées d'octobre<b>+105 000</b></div><div>Dépenses<b>−40 000</b></div><div>Membres<b>32</b></div></div>
+      </div>
+      <div class="hero" data-sum hidden>
+        <div class="demo-tag">Résumé de la caisse · exemple</div>
+        <div class="bal num">1 245 000 <small>FCFA</small></div>
+        <div class="row num"><div>Ont cotisé en octobre<b>21 sur 32</b></div><div>Dernière dépense<b>Couronne, 40 000</b></div></div>
+      </div>
+      <div class="ro" data-ro hidden>Commissaire aux comptes : lecture seule, rien n'est modifiable.</div>
+      <div class="panel mine" data-self hidden>
+        <div class="av" style="--c:var(--green)">KY</div>
+        <div class="t"><b>Ma cotisation d'octobre</b><small id="my-state">5 000 FCFA à payer avant le 5 nov.</small></div>
+        <span class="chip late" id="my-chip">À payer</span>
+      </div>
+      <button class="btn primary" type="button" id="paid" data-self hidden>J'ai payé, j'envoie ma preuve</button>
+      <div class="panel" data-self hidden>
+        <div class="sec-h"><h2>Mes reçus</h2><span>2026</span></div>
+        <div class="list" style="margin-top:6px">
+          <div class="item"><div class="av" style="--c:var(--green)">✓</div><div class="t"><b>Cotisation de septembre</b><small>Reçu R-00038 · validé le 4 sept. par le trésorier · Wave</small></div><span class="amt num">5 000</span></div>
+          <div class="item"><div class="av" style="--c:var(--green)">✓</div><div class="t"><b>Funérailles de Maman N'Dri</b><small>Reçu R-00031 · validé le 28 août · Orange Money</small></div><span class="amt num">10 000</span></div>
+          <div class="item"><div class="av" style="--c:var(--green)">✓</div><div class="t"><b>Cotisation d'août</b><small>Reçu R-00024 · validé le 3 août · espèces en réunion</small></div><span class="amt num">5 000</span></div>
+        </div>
+      </div>
+      <div class="panel" data-val hidden>
+        <div class="sec-h"><h2>À valider</h2><span id="val-count">2 preuves</span></div>
+        <div id="val-list" style="margin-top:4px"></div>
+        <p class="warn">Vérifie toujours sur le téléphone de l'association que l'argent est arrivé avant de valider : une capture peut être retouchée.</p>
+      </div>
+      <div class="panel" data-fin>
+        <div class="sec-h"><h2>Cotisation d'octobre</h2><span class="num">5 000 FCFA / membre</span></div>
+        <div class="bar" style="margin-top:12px"><i id="month-bar" data-w="65.6"></i></div>
+        <div class="split num"><span><b>21</b> à jour</span><span><b>11</b> en retard</span></div>
+      </div>
+      <div class="actions" data-act>
+        <button class="btn primary" type="button" id="remind">Relancer les 11</button>
+        <button class="btn" type="button" data-go="1">Tous les membres</button>
+      </div>
+      <div class="panel" data-fin>
+        <div class="sec-h"><h2>Paiements récents</h2><span>Mobile Money</span></div>
+        <div class="list" style="margin-top:6px">
+          <div class="item"><div class="av" style="--c:var(--green)">AK</div><div class="t"><b>Aya Koffi Marie</b><small>Aujourd'hui, 08:42 · Wave · capture vérifiée</small></div><span class="amt num">5 000</span></div>
+          <div class="item"><div class="av" style="--c:var(--gold)">TM</div><div class="t"><b>Traoré Mamadou</b><small>Hier, 19:10 · Orange Money · capture vérifiée</small></div><span class="amt num">10 000</span></div>
+          <div class="item"><div class="av" style="--c:var(--blue)">KB</div><div class="t"><b>Konan Brou Serge</b><small>Hier, 12:05 · Espèces · noté par le trésorier</small></div><span class="amt num">5 000</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Membres -->
+    <section class="screen" id="s-members" aria-label="Membres" hidden>
+      <div class="seg glass" role="tablist" id="seg" data-fin>
+        <span class="slider" id="slider"></span>
+        <button role="tab" aria-selected="true" data-f="all">Tous<span class="count">32</span></button>
+        <button role="tab" aria-selected="false" data-f="ok">À jour<span class="count">21</span></button>
+        <button role="tab" aria-selected="false" data-f="late">En retard<span class="count">11</span></button>
+      </div>
+      <div class="panel"><div class="list" id="members"></div></div>
+      <p class="demo-tag" style="text-align:center;margin:0" id="mem-hint">Noms d'exemple · 8 membres affichés sur 32</p>
+    </section>
+
+    <!-- Collectes -->
+    <section class="screen" id="s-collect" aria-label="Collectes" hidden>
+      <div class="panel collect">
+        <span class="chip late" style="align-self:flex-start">Urgent</span>
+        <h3 style="margin-top:10px">Funérailles de Maman N'Dri Akissi</h3>
+        <p>Soutien à la famille de notre membre N'Dri Akissi. Contribution conseillée : 10 000 FCFA.</p>
+        <div class="bar"><i data-w="62.4"></i></div>
+        <div class="split num"><span><b>312 000</b> collectés</span><span>objectif 500 000</span></div>
+      </div>
+      <div class="panel collect">
+        <h3>Forage du village</h3>
+        <p>Projet voté à l'AG de juillet. Les sections d'Abidjan, de Paris et de Bouaké y participent.</p>
+        <div class="bar"><i data-w="38"></i></div>
+        <div class="split num"><span><b>1 140 000</b> collectés</span><span>objectif 3 000 000</span></div>
+      </div>
+    </section>
+
+    <!-- Annonces -->
+    <section class="screen" id="s-news" aria-label="Annonces" hidden>
+      <button class="btn primary" type="button" id="publish" data-pub>Publier une annonce</button>
+      <div class="panel note"><div class="d"><b>26</b><small>oct.</small></div><div><b>Assemblée générale</b><p>Dimanche à 15 h, école primaire de Koumassi. Ordre du jour : bilan du forage, élection du bureau.</p></div></div>
+      <div class="panel note"><div class="d"><b>02</b><small>nov.</small></div><div><b>Levée de corps</b><p>Maman N'Dri Akissi. Départ des cars à 6 h depuis la gare d'Adjamé.</p></div></div>
+      <div class="panel note"><div class="d"><b>05</b><small>nov.</small></div><div><b>Date limite des cotisations</b><p>Les relances partent automatiquement sur WhatsApp la veille.</p></div></div>
+    </section>
+  </div>
+
+  <nav class="dock" id="dock" hidden aria-label="Navigation principale">
+    <div class="tabs glass" role="tablist" id="tabs">
+      <svg class="goo" aria-hidden="true"><defs><filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="7" result="b"/><feColorMatrix in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9" result="g"/><feComposite in="SourceGraphic" in2="g" operator="atop"/></filter></defs></svg>
+      <div class="blobs" aria-hidden="true"><span class="blob trail" id="trail"></span><span class="blob" id="blob"></span></div>
+      <button class="tab" role="tab" aria-selected="true" data-i="0" data-c="--green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3.5 10.5 12 3.8l8.5 6.7V20a1 1 0 0 1-1 1h-5v-6h-5v6h-5a1 1 0 0 1-1-1z"/></svg><span>Accueil</span></button>
+      <button class="tab" role="tab" aria-selected="false" data-i="1" data-c="--gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><circle cx="17.5" cy="9" r="2.6"/><path d="M17 14.6c2.6.2 4.1 1.9 4.5 4.6"/></svg><span>Membres</span></button>
+      <button class="tab" role="tab" aria-selected="false" data-i="2" data-c="--blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 20.5s-8-4.6-8-10.4A4.4 4.4 0 0 1 12 7.6a4.4 4.4 0 0 1 8 2.5c0 5.8-8 10.4-8 10.4Z"/></svg><span>Collectes</span></button>
+      <button class="tab" role="tab" aria-selected="false" data-i="3" data-c="--coral"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 9.5v5h3l7 4.5V5L7 9.5z"/><path d="M17.5 9a4 4 0 0 1 0 6" stroke-linecap="round"/></svg><span>Annonces</span></button>
+    </div>
+  </nav>
+
+  <div class="toast glass" id="toast" role="status"></div>
+  <div class="scrim" id="scrim" hidden><div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Fenêtre"></div></div>
+</div>
+
+<script>
+(function(){
+  const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+  const root = document.documentElement;
+
+  // Téléphones modestes : version allégée (pas de flou ni de filtre liquide)
+  const cores = navigator.hardwareConcurrency || 4, mem = navigator.deviceMemory || 4;
+  if (cores <= 2 || mem <= 2) document.body.classList.add('lite');
+
+  // ---------- Thème ----------
+  function isDark(){
+    const t = root.getAttribute('data-theme');
+    if (t) return t === 'dark';
+    return matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+  function syncTheme(){ root.setAttribute('data-dark', isDark() ? '1' : '0');
+    $('#theme').setAttribute('aria-label', isDark() ? 'Passer en mode clair' : 'Passer en mode sombre'); }
+  $('#theme').addEventListener('click', () => { root.setAttribute('data-theme', isDark() ? 'light' : 'dark'); syncTheme(); placeBlob(cur, false); });
+  matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', syncTheme);
+  syncTheme();
+
+  // ---------- Inscription ----------
+  const name = $('#f-name'), tel = $('#f-tel'), asso = $('#f-asso'), cgu = $('#f-cgu'), rgpd = $('#f-rgpd'), age = $('#f-age'), cta = $('#cta');
+  const pins = $$('#pin input'), bars = $$('.meter i'), msg = $('#meter-msg');
+  tel.addEventListener('input', () => {
+    const d = tel.value.replace(/\D/g,'').slice(0,10);
+    tel.value = d.replace(/(\d{2})(?=\d)/g,'$1 ');
+  });
+  function pinStrength(code){
+    if (code.length < 4) return {lvl:0, text: code.length ? 'Encore ' + (4 - code.length) + ' chiffre' + (4 - code.length > 1 ? 's' : '') + '.' : 'Évitez 1234, 0000 ou votre année de naissance.'};
+    const d = code.split('').map(Number);
+    const same = d.every(x => x === d[0]);
+    const up = d.every((x,i) => i === 0 || x === d[i-1] + 1), down = d.every((x,i) => i === 0 || x === d[i-1] - 1);
+    const common = ['1234','0000','1111','1212','2580','0852','1004','2000','6969','4321','1122','2222','5555','7777','9999','0123'];
+    if (same || up || down || common.includes(code)) return {lvl:1, text:'Trop facile à deviner. Choisissez un autre code.', c:'--danger'};
+    const year = /^(19[4-9]\d|20[0-2]\d)$/.test(code);
+    const pairs = code[0] === code[2] && code[1] === code[3];
+    if (year || pairs || new Set(d).size === 2) return {lvl:2, text: year ? 'Ressemble à une année. Acceptable, mais à éviter.' : 'Correct, mais un peu répétitif.', c:'--gold'};
+    return {lvl:3, text:'Code solide.', c:'--ok'};
+  }
+  let strength = 0;
+  function updatePin(){
+    const code = pins.map(p => p.value).join('');
+    pins.forEach(p => p.classList.toggle('filled', !!p.value));
+    const s = pinStrength(code); strength = s.lvl;
+    bars.forEach((b,i) => { b.classList.toggle('on', i < s.lvl); b.style.setProperty('--c', s.c ? 'var(' + s.c + ')' : 'var(--green)'); });
+    msg.textContent = s.text; msg.style.color = s.c ? 'var(' + s.c + ')' : '';
+    validate();
+  }
+  pins.forEach((p,i) => {
+    p.addEventListener('input', () => { p.value = p.value.replace(/\D/g,'').slice(-1); if (p.value && i < 3) pins[i+1].focus(); updatePin(); });
+    p.addEventListener('keydown', e => { if (e.key === 'Backspace' && !p.value && i > 0) { pins[i-1].value=''; pins[i-1].focus(); updatePin(); } });
+    p.addEventListener('paste', e => { const t = (e.clipboardData.getData('text')||'').replace(/\D/g,'').slice(0,4); if (t){ e.preventDefault(); t.split('').forEach((c,k)=>pins[k].value=c); pins[Math.min(t.length,3)].focus(); updatePin(); } });
+  });
+  function validate(){
+    const okName = name.value.trim().split(/\s+/).length >= 2;
+    const okTel = tel.value.replace(/\D/g,'').length === 10;
+    const okAsso = asso.value.trim().length >= 3;
+    $('#w-name').classList.toggle('valid', okName);
+    $('#w-tel').classList.toggle('valid', okTel);
+    $('#w-asso').classList.toggle('valid', okAsso);
+    const okPres = isPres === 1 || (isPres === 0 && $('#f-pres').value.replace(/\D/g,'').length === 10);
+    $('#w-pres').classList.toggle('valid', isPres === 0 && okPres);
+    cta.disabled = !(okName && okTel && okAsso && okPres && strength >= 2 && cgu.checked && rgpd.checked && age.checked);
+  }
+  let isPres = -1;
+  $$('#yn button').forEach(b => b.addEventListener('click', () => {
+    isPres = +b.dataset.yn; $$('#yn button').forEach(x => x.setAttribute('aria-pressed', x === b));
+    $('#pres-field').hidden = isPres !== 0;
+    $('#yn-help').textContent = isPres ? 'Vous serez le président de l\'association.' : 'Vous serez secrétaire en attendant. Le président recevra un lien et le deviendra en l\'acceptant.';
+    validate();
+  }));
+  $('#f-pres').addEventListener('input', e => { const d = e.target.value.replace(/\D/g,'').slice(0,10); e.target.value = d.replace(/(\d{2})(?=\d)/g,'$1 '); validate(); });
+  [name, tel, asso].forEach(el => el.addEventListener('input', validate));
+  [cgu, rgpd, age].forEach(el => el.addEventListener('change', validate));
+  $('#form').addEventListener('submit', e => {
+    e.preventDefault(); if (cta.disabled) return;
+    cta.classList.add('loading');
+    setTimeout(() => {
+      $('#asso-name').textContent = asso.value.trim();
+      $('#user-name').textContent = name.value.trim(); myName = name.value.trim(); setInitials();
+      me = isPres ? 'pres' : 'sec'; applyRole();
+      openApp(isPres ? 'Association créée. Vous êtes le président (démo).' : 'Association créée. Vous êtes secrétaire ; un lien a été envoyé au président (+225 ' + $('#f-pres').value + ') pour qu\'il accepte (démo).');
+    }, 1100);
+  });
+  $('#skip').addEventListener('click', () => { $('#signup').hidden = true; $('#login').hidden = false; scrollTo(0,0); });
+  $('#to-signup').addEventListener('click', () => { $('#login').hidden = true; $('#signup').hidden = false; scrollTo(0,0); });
+
+  // ---------- Appli ----------
+  const screens = ['#s-home','#s-members','#s-collect','#s-news'].map($);
+  const tabs = $$('.tab'), blob = $('#blob'), trail = $('#trail');
+  let cur = 0;
+  function openApp(toastText){
+    $('#signup').hidden = true; $('#login').hidden = true; $('#main').hidden = false; $('#dock').hidden = false;
+    screens[0].classList.add('enter'); window.scrollTo(0,0);
+    requestAnimationFrame(() => { placeBlob(0, false); fillBars(screens[0]); });
+    if (toastText) toast(toastText);
+  }
+  function placeBlob(i, animate){
+    const t = tabs[i], bar = $('#tabs');
+    if (!t || !bar.offsetWidth) return;
+    const x = t.offsetLeft + t.offsetWidth/2;
+    const color = 'var(' + t.dataset.c + ')';
+    blob.style.transform = 'translateX(' + (x - 24) + 'px)';
+    trail.style.transform = 'translateX(' + (x - 19) + 'px)';
+    blob.style.setProperty('--bc', color); trail.style.setProperty('--bc', color);
+    if (animate){ blob.classList.remove('squish'); void blob.offsetWidth; blob.classList.add('squish'); }
+  }
+  function go(i){
+    if (i === cur) return;
+    tabs[cur].setAttribute('aria-selected','false'); tabs[i].setAttribute('aria-selected','true');
+    screens[cur].hidden = true; screens[i].hidden = false;
+    screens[i].classList.remove('enter'); void screens[i].offsetWidth; screens[i].classList.add('enter');
+    cur = i; placeBlob(i, true); fillBars(screens[i]); window.scrollTo({top:0});
+    if (i === 1) moveSlider();
+  }
+  tabs.forEach((t,i) => t.addEventListener('click', () => go(i)));
+  $$('[data-go]').forEach(b => b.addEventListener('click', () => go(+b.dataset.go)));
+  addEventListener('resize', () => { placeBlob(cur, false); moveSlider(); });
+
+  function fillBars(scope){
+    scope.querySelectorAll('.bar i[data-w]').forEach(b => { b.style.width = '0'; requestAnimationFrame(() => requestAnimationFrame(() => b.style.width = b.dataset.w + '%')); });
+  }
+
+  // ---------- Membres + filtre en verre ----------
+  const people = [
+    ['Aya Koffi Marie','Payé le 10 oct. · Wave',1,'--green'],
+    ['Traoré Mamadou','Payé le 9 oct. · Orange Money',1,'--gold'],
+    ['Bamba Fatou','2 mois de retard · 10 000 FCFA',0,'--coral'],
+    ['Konan Brou Serge','Payé le 9 oct. · MTN MoMo',1,'--blue'],
+    ['Gnahoré Didier','1 mois de retard · 5 000 FCFA',0,'--gold'],
+    ['Ouattara Mariam','Payé le 3 oct. · Wave · Paris',1,'--green'],
+    ['Coulibaly Ibrahim','1 mois de retard · 5 000 FCFA',0,'--blue'],
+    ['Kouamé Adjoua','Payé le 1er oct. · Wave',1,'--coral']
+  ];
+  const ini = n => n.split(' ').slice(0,2).map(w => w[0]).join('');
+  function renderMembers(f){
+    const list = $('#members');
+    list.innerHTML = people.filter(p => f === 'all' || (f === 'ok') === !!p[2]).map(p =>
+      '<div class="item enter"><div class="av" style="--c:var(' + p[3] + ')">' + ini(p[0]) + '</div><div class="t"><b>' + p[0] + '</b><small>' + p[1] + '</small></div><span class="chip ' + (p[2] ? 'ok">À jour' : 'late">En retard') + '</span></div>').join('');
+  }
+  const segBtns = $$('#seg button');
+  let segI = 0;
+  function moveSlider(){ $('#slider').style.transform = 'translateX(' + (segI * 100) + '%)'; }
+  segBtns.forEach((b,i) => b.addEventListener('click', () => {
+    segBtns.forEach(x => x.setAttribute('aria-selected','false')); b.setAttribute('aria-selected','true');
+    segI = i; moveSlider(); renderMembers(b.dataset.f);
+  }));
+  renderMembers('all');
+
+  // ---------- Relance + toast ----------
+  let tt;
+  function toast(t){ const el = $('#toast'); el.textContent = t; el.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => el.classList.remove('show'), 3200); }
+  $('#remind').addEventListener('click', () => toast('Message WhatsApp prêt pour les 11 membres en retard (démo, rien n\'est envoyé).'));
+
+  // ---------- Feuille du bas ----------
+  const scrim = $('#scrim'), sheet = $('#sheet');
+  function openSheet(html, label){
+    sheet.innerHTML = '<span class="grab" aria-hidden="true"></span>' + html; sheet.setAttribute('aria-label', label || 'Fenêtre');
+    scrim.hidden = false; requestAnimationFrame(() => scrim.classList.add('show'));
+    const f = sheet.querySelector('button, input'); if (f) f.focus({preventScroll:true});
+  }
+  function closeSheet(){ scrim.classList.remove('show'); setTimeout(() => { scrim.hidden = true; sheet.innerHTML = ''; }, 300); }
+  scrim.addEventListener('click', e => { if (e.target === scrim || e.target.closest('[data-close]')) closeSheet(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && !scrim.hidden) closeSheet(); });
+
+  // ---------- Rôles ----------
+  const ROLES = {
+    pres:{n:'Président', d:'Voit toute la caisse, attribue les rôles, valide les paiements.', fin:1, val:1, assign:1, pub:1},
+    tres:{n:'Trésorier', d:'Voit toute la caisse, valide les paiements, relance les retardataires.', fin:1, val:1},
+    sec:{n:'Secrétaire', d:'Gère la liste des membres et les comptes rendus. Ne voit pas le détail de la caisse.', pub:1},
+    com:{n:'Chargé de la communication', d:'Publie les annonces, convocations et avis de décès. Ne voit pas qui a payé.', pub:1},
+    cac:{n:'Commissaire aux comptes', d:'Voit toute la caisse en lecture seule, pour le contrôle.', fin:1, ro:1},
+    sect:{n:'Chef de section', d:'Suit les membres et les cotisations de sa section seulement.', fin:1},
+    mem:{n:'Membre', d:'Voit sa cotisation, ses reçus, les annonces et le résumé de la caisse.'}
+  };
+  const roleOf = {'Traoré Mamadou':'tres','Aya Koffi Marie':'sec','Konan Brou Serge':'cac','Kouamé Adjoua':'com','Ouattara Mariam':'sect'};
+  let me = 'tres';
+  function applyRole(){
+    const r = ROLES[me];
+    $('#role-name').textContent = r.n;
+    $$('[data-fin]').forEach(e => e.hidden = !r.fin);
+    $$('[data-sum]').forEach(e => e.hidden = !!r.fin);
+    $$('[data-val]').forEach(e => e.hidden = !r.val);
+    $$('[data-act]').forEach(e => e.hidden = !(r.val));
+    $$('[data-ro]').forEach(e => e.hidden = !r.ro);
+    $$('[data-self]').forEach(e => e.hidden = !!r.fin || e.id === 'paid' && $('#my-chip').textContent !== 'À payer');
+    $$('[data-pub]').forEach(e => e.hidden = !r.pub);
+    $('#mem-hint').textContent = r.assign ? 'Touche un membre pour lui attribuer un rôle · noms d\'exemple' : (r.fin ? 'Noms d\'exemple · 8 membres affichés sur 32' : 'Les montants et les retards ne sont visibles que du bureau financier');
+    if (!r.fin){ segI = 0; segBtns.forEach((x,i) => x.setAttribute('aria-selected', i === 0 ? 'true' : 'false')); }
+    renderMembers(r.fin ? segBtns[segI].dataset.f : 'all');
+    fillBars(screens[cur]);
+  }
+  const ACC = [["pres", "Kouassi Yao Jean", "07 00 00 00 10"], ["tres", "Traoré Mamadou", "07 00 00 00 11"], ["cac", "Konan Brou Serge", "07 00 00 00 12"], ["sec", "Aya Koffi Marie", "07 00 00 00 13"], ["com", "Kouamé Adjoua", "07 00 00 00 14"], ["sect", "Ouattara Mariam", "07 00 00 00 15"], ["mem", "Bamba Fatou", "07 00 00 00 16"]];
+  let myName = 'Kouassi Yao Jean';
+  function setInitials(){ const el = $('[data-self] .av'); if (el) el.textContent = ini(myName); }
+  $$('[data-rn]').forEach(e => e.textContent = ROLES[e.dataset.rn].n);
+  function login(i){
+    const a = ACC[i]; me = a[0]; myName = a[1];
+    $('#user-name').textContent = a[1]; $('#asso-name').textContent = 'Mutuelle de Kotobi, section Abidjan'; setInitials();
+    if (me === 'mem'){ $('#my-state').textContent = '10 000 FCFA à payer (2 mois de retard)'; }
+    applyRole(); openApp('Connecté : ' + a[1] + ', ' + ROLES[me].n.toLowerCase() + ' (démo).');
+  }
+  $$('[data-acc]').forEach(b => b.addEventListener('click', () => login(+b.dataset.acc)));
+  $('#l-tel').addEventListener('input', e => { const d = e.target.value.replace(/\D/g,'').slice(0,10); e.target.value = d.replace(/(\d{2})(?=\d)/g,'$1 '); });
+  $('#lform').addEventListener('submit', e => {
+    e.preventDefault(); const t = $('#l-tel').value.replace(/\D/g,''), i = ACC.findIndex(a => a[2].replace(/\D/g,'') === t);
+    if (i < 0) { $('#l-err').textContent = 'Ce numéro n\'a pas de compte. Utilisez un compte de démo ci-dessous.'; return; }
+    if ($('#l-pin').value !== '4829') { $('#l-err').textContent = 'Code secret incorrect. Pour la démo, le code est 4829.'; return; }
+    $('#l-err').textContent = ''; login(i);
+  });
+  function logout(){ $('#main').hidden = true; $('#dock').hidden = true; $('#login').hidden = false; $('#l-pin').value = ''; scrollTo(0,0); }
+  $('#role-btn').addEventListener('click', () => {
+    openSheet('<h2>Voir la démo en tant que…</h2><p>Chaque rôle voit et fait des choses différentes. Dans la vraie appli, c\'est le président qui attribue les rôles.</p><div class="opts">' +
+      Object.entries(ROLES).map(([k,r]) => '<button class="opt" type="button" data-role="' + k + '" aria-pressed="' + (k === me) + '"><div><b>' + r.n + '</b><small>' + r.d + '</small></div></button>').join('') + '</div><button class="btn" type="button" id="logout">Se déconnecter</button>', 'Choisir un rôle');
+    $('#logout').addEventListener('click', () => { closeSheet(); logout(); });
+    sheet.querySelectorAll('[data-role]').forEach(b => b.addEventListener('click', () => { me = b.dataset.role; applyRole(); closeSheet(); toast('Tu vois maintenant l\'appli comme : ' + ROLES[me].n + '.'); }));
+  });
+
+  // Liste des membres selon le rôle
+  renderMembers = function(f){
+    const r = ROLES[me], list = $('#members');
+    list.innerHTML = people.filter(p => !r.fin || f === 'all' || (f === 'ok') === !!p[2]).map((p,i) => {
+      const role = roleOf[p[0]] ? '<span class="rbadge">' + ROLES[roleOf[p[0]]].n + '</span>' : '';
+      const sub = r.fin ? p[1] : (p[1].includes('Paris') ? 'Section Paris' : 'Section Abidjan');
+      const chip = r.fin ? '<span class="chip ' + (p[2] ? 'ok">À jour' : 'late">En retard') + '</span>' : '';
+      return '<div class="item enter" ' + (r.assign ? 'role="button" tabindex="0" data-p="' + i + '" style="cursor:pointer"' : '') + '><div class="av" style="--c:var(' + p[3] + ')">' + ini(p[0]) + '</div><div class="t"><b>' + p[0] + '</b><small>' + (role ? role + ' ' : '') + sub + '</small></div>' + chip + '</div>';
+    }).join('');
+    list.querySelectorAll('[data-p]').forEach(el => { const open = () => assignSheet(+el.dataset.p); el.addEventListener('click', open); el.addEventListener('keydown', e => { if (e.key === 'Enter') open(); }); });
+  };
+  function assignSheet(i){
+    const name = people[i][0], curR = roleOf[name] || 'mem';
+    openSheet('<h2>Rôle de ' + name + '</h2><p>Le changement est enregistré (qui, quand) et ' + name.split(' ')[0] + ' est prévenu dans l\'appli.</p><div class="opts">' +
+      Object.entries(ROLES).filter(([k]) => k !== 'pres').map(([k,r]) => '<button class="opt" type="button" data-r="' + k + '" aria-pressed="' + (k === curR) + '"><div><b>' + r.n + '</b><small>' + r.d + '</small></div></button>').join('') + '</div>', 'Attribuer un rôle');
+    sheet.querySelectorAll('[data-r]').forEach(b => b.addEventListener('click', () => {
+      if (b.dataset.r === 'mem') delete roleOf[name]; else roleOf[name] = b.dataset.r;
+      closeSheet(); renderMembers(segBtns[segI].dataset.f); toast(name + ' est maintenant ' + ROLES[b.dataset.r].n.toLowerCase() + '. Prévenu dans l\'appli (démo).');
+    }));
+  }
+
+  // ---------- Preuves de paiement ----------
+  function shot(op, amt, ref, col){
+    const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="300" viewBox="0 0 200 300"><rect width="200" height="300" fill="#f4f4f4"/><rect width="200" height="44" fill="' + col + '"/><text x="14" y="28" font-family="Arial" font-size="15" font-weight="700" fill="#fff">' + op + '</text><rect x="12" y="62" width="176" height="150" rx="12" fill="#fff"/><text x="24" y="90" font-family="Arial" font-size="11" fill="#555">Transfert réussi</text><text x="24" y="122" font-family="Arial" font-size="22" font-weight="700" fill="#111">' + amt + ' F</text><text x="24" y="148" font-family="Arial" font-size="10" fill="#555">À : Mutuelle de Kotobi</text><text x="24" y="166" font-family="Arial" font-size="10" fill="#555">07 •• •• 45 12</text><text x="24" y="190" font-family="Arial" font-size="9" fill="#777">Réf. ' + ref + '</text><rect x="24" y="226" width="152" height="16" rx="4" fill="#ccc"/><text x="30" y="238" font-family="Arial" font-size="9" fill="#666">Solde masqué</text></svg>';
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  }
+  const usedRefs = new Set(['MP251011.0842.A12345','OM251010.1910.778213']);
+  let lastRecu = 41;
+  let pending = [
+    {n:'Bamba Fatou', op:'Wave', amt:'10 000', ref:'WV-8F2K-91QZ', when:'Aujourd\'hui, 10:15', img:shot('Wave','10 000','WV-8F2K-91QZ','#1DC3E6')},
+    {n:'Gnahoré Didier', op:'Orange Money', amt:'5 000', ref:'OM251011.0931.552014', when:'Aujourd\'hui, 09:31', img:shot('Orange Money','5 000','OM251011.0931.552014','#FF7900')}
+  ];
+  pending.forEach(p => usedRefs.add(p.ref));
+  function renderPending(){
+    $('#val-count').textContent = pending.length ? pending.length + (pending.length > 1 ? ' preuves' : ' preuve') : 'Rien à valider';
+    $('#val-list').innerHTML = pending.map((p,i) => '<div class="proof"><img src="' + p.img + '" alt="Capture envoyée par ' + p.n + '" data-z="' + i + '"><div class="t"><b>' + p.n + '</b><small>' + p.amt + ' FCFA · ' + p.op + ' · ' + p.when + '</small><small>Réf. ' + p.ref + '</small>' +
+      (ROLES[me].ro ? '' : '<label class="vu"><input type="checkbox" data-vu="' + i + '"> J\'ai vu ce paiement dans l\'historique du compte de l\'association</label><div class="row2"><button class="btn primary" type="button" data-ok="' + i + '" disabled>Valider</button><button class="btn" type="button" data-no="' + i + '">Refuser</button></div>') + '</div></div>').join('') || '<p class="warn" style="padding-block:8px">Tout est à jour.</p>';
+    $$('#val-list [data-vu]').forEach(c => c.addEventListener('change', () => { $('#val-list [data-ok="' + c.dataset.vu + '"]').disabled = !c.checked; }));
+    $$('#val-list [data-ok]').forEach(b => b.addEventListener('click', () => { const p = pending.splice(+b.dataset.ok,1)[0]; renderPending(); const n = 'R-' + String(++lastRecu).padStart(5,'0'); toast('Validé. Reçu ' + n + ' créé, ' + p.n + ' le voit dans l\'appli (démo).'); }));
+    $$('#val-list [data-no]').forEach(b => b.addEventListener('click', () => { const p = pending.splice(+b.dataset.no,1)[0]; renderPending(); toast(p.n + ' est prévenu : paiement non retrouvé sur le compte (démo).'); }));
+    $$('#val-list [data-z]').forEach(im => im.addEventListener('click', () => openSheet('<h2>Capture de ' + pending[+im.dataset.z].n + '</h2><div class="zoom"><img src="' + im.src + '" alt=""></div><button class="btn" type="button" data-close>Fermer</button>', 'Capture')));
+  }
+  renderPending();
+
+  $('#paid').addEventListener('click', () => {
+    openSheet('<h2>J\'ai payé ma cotisation</h2><p>Paie d\'abord sur le numéro Mobile Money de l\'association : 07 •• •• 45 12. Ensuite, envoie ta preuve ici.</p>' +
+      '<div class="field"><label for="pay-amt">Montant</label><div class="input"><input id="pay-amt" inputmode="numeric" value="5 000"><span class="pre">FCFA</span></div></div>' +
+      '<div class="field"><label for="pay-ref">Numéro de la transaction</label><div class="input"><input id="pay-ref" placeholder="Ex. MP251011.1203.B45678" autocapitalize="characters"></div><div class="err" id="pay-err" aria-live="polite"></div></div>' +
+      '<div class="drop"><img id="pay-img" alt="" hidden><div class="t" id="pay-txt">Ajoute la capture de ton SMS ou de ton appli Mobile Money. Pense à masquer ton solde.<br><label for="pay-file">Choisir une capture</label></div><input type="file" id="pay-file" accept="image/*" hidden></div>' +
+      '<button class="btn" type="button" id="pay-demo">Utiliser une capture d\'exemple</button>' +
+      '<button class="cta" type="button" id="pay-send" disabled>Envoyer au trésorier</button>', 'Déclarer un paiement');
+    let img = null; const ref = $('#pay-ref'), send = $('#pay-send'), err = $('#pay-err');
+    const check = () => { const v = ref.value.trim().toUpperCase(); const dup = usedRefs.has(v);
+      err.textContent = dup ? 'Ce numéro de transaction a déjà été utilisé. Vérifie-le.' : ''; send.disabled = !(img && v.length >= 6 && !dup); };
+    const setImg = src => { img = src; const el = $('#pay-img'); el.src = src; el.hidden = false; $('#pay-txt').innerHTML = 'Capture ajoutée.<br><label for="pay-file">Changer</label>'; check(); };
+    ref.addEventListener('input', check);
+    $('#pay-file').addEventListener('change', e => { const f = e.target.files[0]; if (!f) return; const r = new FileReader(); r.onload = () => setImg(r.result); r.readAsDataURL(f); });
+    $('#pay-demo').addEventListener('click', () => { if (!ref.value) ref.value = 'MP251011.1203.B45678'; setImg(shot('MTN MoMo','5 000', ref.value.trim().toUpperCase(),'#E5B800')); });
+    send.addEventListener('click', () => {
+      const v = ref.value.trim().toUpperCase(); usedRefs.add(v);
+      pending.unshift({n:myName, op:'MTN MoMo', amt:$('#pay-amt').value, ref:v, when:'À l\'instant', img});
+      renderPending(); closeSheet();
+      $('#my-state').textContent = 'Preuve envoyée, en attente de validation du trésorier'; $('#my-chip').className = 'chip'; $('#my-chip').textContent = 'En attente'; $('#paid').hidden = true;
+      toast('Preuve envoyée. Tu recevras ton reçu dès que le trésorier aura vérifié (démo).');
+    });
+  });
+
+  $('#publish').addEventListener('click', () => toast('Annonce prête à publier : elle part sur l\'appli et sur WhatsApp (démo).'));
+  if (/^#membre/.test(location.hash)) { me = 'mem'; openApp(); }
+  applyRole();
+})();
+</script>
+
+</body></html>
