@@ -105,6 +105,10 @@ footer.ft{padding:0;text-align:left;font-size:.95rem}.cover .bar{z-index:10}
 .ap-svg.play .b-pil{transform-box:fill-box;transform-origin:bottom;animation:apRise .45s ease-out both;animation-delay:calc(1s + var(--i,0)*.15s)}
 .ap-pil.play>div{animation:apFade .6s ease-out both}.ap-pil.play>div:nth-child(2){animation-delay:1.65s}.ap-pil.play>div:nth-child(1){animation-delay:1.5s}.ap-pil.play>div:nth-child(3){animation-delay:1.8s}
 @media (prefers-reduced-motion: reduce){.play,.play *{animation:none!important}}
+/* Fond animé du pied de page (choisi le 2026-10-21) : le pont de nuit, avec une lumière qui le parcourt. Sans animation : image fixe. */
+[data-bg]{position:relative;isolation:isolate}:where([data-bg])>*:not(canvas.bgfx){position:relative;z-index:1}
+canvas.bgfx{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
+footer.ft.has-fx{background:linear-gradient(180deg,#0C2A50,#123B6D)}
 </style>
 </head>
 <body>
@@ -140,7 +144,7 @@ footer.ft{padding:0;text-align:left;font-size:.95rem}.cover .bar{z-index:10}
 </section>
 <section class="d" id="contact" style="padding-top:0"><div class="contact"><h2>Nous contacter</h2><a href="mailto:contact@afripont.com">contact@afripont.com</a></div></section>
 <section class="d" id="mentions" style="padding-top:0"><h2>Mentions légales</h2><div class="c" style="color:var(--muted)"><p>Responsable de la publication : KASSI N'guetta Patrick Eloi · <a href="mailto:contact@afripont.com" style="color:var(--navy);font-weight:600">contact@afripont.com</a></p><p style="margin-top:6px">Société AFRIPONT DIGITAL SARLU en cours de création, Abidjan, Côte d'Ivoire.</p><p style="margin-top:6px">Hébergement du site : GitHub, Inc. (GitHub Pages). Ce site n'utilise ni cookie ni suivi des visiteurs.</p></div></section>
-<footer class="ft"><div class="ftg">
+<footer class="ft" data-bg="nuit"><div class="ftg">
 <div><h4>Notre bureau</h4><ul class="ic"><li><span>📍</span>Abidjan, Yopougon, Côte d'Ivoire</li><li><span>✉️</span><a href="mailto:contact@afripont.com">contact@afripont.com</a></li><li><span>🌐</span>afripont.com</li></ul></div>
 <div><h4>Liens rapides</h4><ul class="ln"><li><a href="#espaces">Nos espaces</a></li><li><a href="#apropos">À propos</a></li><li><a href="#contact">Contact</a></li><li><a href="#mentions">Mentions légales</a></li></ul></div>
 <div><h4>Nos espaces</h4><ul class="ln"><li><a href="#associations">Associations ✓</a></li><li><a href="#bientot">Hommage (bientôt)</a></li><li><a href="#bientot">Versement (bientôt)</a></li></ul></div>
@@ -152,4 +156,30 @@ const G=[['#espaces .live',.85],['#espaces .sx',.6],['#fonctionnement .c',.6],['
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('play');io.unobserve(e.target)}}),{threshold:.2});
 G.forEach(([q,sc])=>document.querySelectorAll(q).forEach((el,i)=>{el.classList.add('pop');el.style.setProperty('--i',i);el.style.setProperty('--s',sc);io.observe(el)}));
 document.querySelectorAll('.ap-svg,.ap-pil').forEach(el=>io.observe(el));})()</script>
+<script>(()=>{
+// Fond animé du pied de page : il n'anime que lorsqu'il est visible.
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const archPt=(u,x0,x1,y0,top)=>[x0+(x1-x0)*u,(1-u)*(1-u)*y0+2*(1-u)*u*top+u*u*y0];
+const ease=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
+const FX={
+ nuit(c){const{ctx,W,H,t}=c,y0=H*.98,x0=-W*.05,x1=W*1.05,top=H*.05,pt=u=>archPt(u,x0,x1,y0,top);
+  ctx.beginPath();ctx.moveTo(x0,y0);ctx.quadraticCurveTo(W/2,top,x1,y0);ctx.strokeStyle='rgba(127,224,180,.16)';ctx.lineWidth=3;ctx.stroke();
+  for(const u of[.28,.5,.72]){const[x,y]=pt(u);ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,y0);ctx.strokeStyle='rgba(255,255,255,.06)';ctx.lineWidth=3;ctx.stroke()}
+  const head=reduce?.5:((t*.00012)%1.4)-.2;
+  for(let k=0;k<24;k++){const u=head-k*.008;if(u<0||u>1)continue;const[x,y]=pt(u);ctx.beginPath();ctx.arc(x,y,3.5-k*.1,0,6.283);ctx.fillStyle=`rgba(127,224,180,${.6*(1-k/24)})`;ctx.fill()}
+  for(let i=0;i<40;i++){const x=(i*97.3)%W,y=(i*53.7)%(H*.6),a=.12+.12*Math.sin(t*.002+i);ctx.beginPath();ctx.arc(x,y,1.2,0,6.283);ctx.fillStyle=`rgba(255,255,255,${a})`;ctx.fill()}}
+};
+const items=[];
+document.querySelectorAll('[data-bg]').forEach(el=>{const fx=FX[el.dataset.bg];if(!fx)return;
+ const cv=document.createElement('canvas');cv.className='bgfx';cv.setAttribute('aria-hidden','true');el.prepend(cv);el.classList.add('has-fx');
+ items.push({el,cv,ctx:cv.getContext('2d'),fx,on:false,t:0,W:0,H:0})});
+function size(c){const r=c.el.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,1.5);c.W=r.width;c.H=r.height;c.cv.width=Math.round(c.W*d);c.cv.height=Math.round(c.H*d);c.ctx.setTransform(d,0,0,d,0,0);c.f=c.p=null}
+function draw(c,dt){c.dt=dt;c.t+=dt;c.ctx.clearRect(0,0,c.W,c.H);c.fx(c)}
+items.forEach(c=>{size(c);draw(c,16)});
+addEventListener('resize',()=>items.forEach(c=>{size(c);draw(c,16)}));
+if(reduce)return;
+if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>es.forEach(e=>{const c=items.find(x=>x.el===e.target);if(c)c.on=e.isIntersecting}),{rootMargin:'80px'});items.forEach(c=>io.observe(c.el))}else items.forEach(c=>c.on=true);
+let last=performance.now();
+(function loop(now){const dt=Math.min(50,now-last);last=now;if(!document.hidden)items.forEach(c=>{if(c.on)draw(c,dt)});requestAnimationFrame(loop)})(last);
+})()</script>
 </body></html>
