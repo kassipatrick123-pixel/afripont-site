@@ -1324,8 +1324,8 @@ function renderHome() {
     <div id="pending-invites" style="display:contents"></div>
     ${me.isAdmin ? '<button class="spacecard" type="button" id="open-admin" style="border-color:#2BB57B;background:#123B6D;color:#fff"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiPgogIDxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjE2IiBmaWxsPSIjMTIzQjZEIi8+CiAgPHBhdGggZD0iTTkgNDUgUTMyIC0yIDU1IDQ1IiBmaWxsPSJub25lIiBzdHJva2U9IiMyQkI1N0IiIHN0cm9rZS13aWR0aD0iNS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNMjEgMjguNSBWNDUgTTMyIDIzIFY0NSBNNDMgMjguNSBWNDUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNNyA0NSBINTciIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+Cg==" alt=""><span class="who"><strong>Espace administrateur AfriPont</strong><span style="color:#cfe0f5">Suivre tous les espaces, leur activité et leurs abonnements</span></span></button>' : ''}
     ${installBox()}
-    ${me.spaces.length ? '<button class="linkish center" type="button" id="add" style="align-self:center;padding:6px">+ Ajouter une association ou une tontine</button>'
-      : me.isAdmin ? '' : '<button class="primary" type="button" id="add">+ Ajouter une association ou une tontine</button>'}
+    ${me.spaces.length ? '<button class="linkish center" type="button" id="add" style="align-self:center;padding:6px">+ Ajouter un espace</button>'
+      : '<button class="primary" type="button" id="add">+ Ajouter un espace</button>'}
     ${decouvrir()}
   </div>`;
   $('home-content').querySelectorAll('[data-space]').forEach((b) => b.addEventListener('click', () => openSpace(b.dataset.space)));
@@ -1350,10 +1350,12 @@ function renderHome() {
   $('add')?.addEventListener('click', () => openSheet(`<h2>Ajouter un espace</h2>
     <button class="ghost" type="button" id="a-create">Je crée mon association</button>
     <button class="ghost" type="button" id="a-tontine">Je crée une tontine</button>
+    <button class="ghost" type="button" id="a-versement" style="opacity:.6">Je suis mes véhicules · Bientôt</button>
     <button class="linkish" type="button" id="a-join">J'ai un code d'invitation</button>
     <button class="linkish" type="button" data-close>Annuler</button>`, (c) => {
     c.querySelector('#a-create').addEventListener('click', createSheet);
     c.querySelector('#a-tontine').addEventListener('click', createTontineSheet);
+    c.querySelector('#a-versement').addEventListener('click', () => toast('AfriPont Versement arrive bientôt : les versements du chauffeur et les dépenses du véhicule, suivis par le propriétaire.'));
     c.querySelector('#a-join').addEventListener('click', joinSheet);
   }));
 }
