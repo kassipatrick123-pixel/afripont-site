@@ -1303,6 +1303,8 @@ const SOON = [
 // « Découvrir notre nouvel espace » : les services qu'on n'utilise pas encore, en lignes compactes.
 // Pastille « Bientôt » tant que l'espace n'est pas prêt ; bouton « Commencer » quand il le sera (available).
 function decouvrir() {
+  // Le compte administrateur suit les espaces des clients : on ne lui en propose pas.
+  if (me.isAdmin) return '';
   // Déjà dans une tontine : on ne la lui « fait plus découvrir » (« + Ajouter » permet d'en créer une autre).
   const list = SOON.filter((x) => !me.spaces.some((sp) => sp.type === x.key));
   if (!list.length) return '';
@@ -1318,12 +1320,12 @@ function renderHome() {
   const ROLE = { responsable: 'Responsable', co_responsable: 'Co-responsable', president: 'Président', tresorier: 'Trésorier', secretaire_general: 'Secrétaire général', secretaire: 'Secrétaire', com: 'Communication', commissaire: 'Commissaire aux comptes (contrôleur interne)', section: 'Chef de section', membre: 'Membre' };
   $('home-content').innerHTML = `<div class="view">
     ${me.spaces.length ? me.spaces.map((s) => `<button class="spacecard" type="button" data-space="${s.id}"><img src="${s.type === 'tontine' ? 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiPgogIDxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjE2IiBmaWxsPSIjMTIzQjZEIi8+CiAgPHBhdGggZD0iTTkgNDUgUTMyIC0yIDU1IDQ1IiBmaWxsPSJub25lIiBzdHJva2U9IiM1QUFFRTgiIHN0cm9rZS13aWR0aD0iNS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNNyA0NSBINTciIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8ZWxsaXBzZSBjeD0iMzIiIGN5PSIzOC41IiByeD0iMTAiIHJ5PSIzLjIiIGZpbGw9IiNmZmZmZmYiLz4KICA8cGF0aCBkPSJNMjIgMzguNSB2LTQgaDIwIHY0IiBmaWxsPSIjZmZmZmZmIi8+CiAgPGVsbGlwc2UgY3g9IjMyIiBjeT0iMzQuNSIgcng9IjEwIiByeT0iMy4yIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxMjNCNkQiIHN0cm9rZS13aWR0aD0iMS41Ii8+CiAgPHBhdGggZD0iTTIyIDM0LjUgdi00IGgyMCB2NCIgZmlsbD0iI2ZmZmZmZiIvPgogIDxlbGxpcHNlIGN4PSIzMiIgY3k9IjMwLjUiIHJ4PSIxMCIgcnk9IjMuMiIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMTIzQjZEIiBzdHJva2Utd2lkdGg9IjEuNSIvPgogIDxwYXRoIGQ9Ik0yMiAzMC41IHYtNCBoMjAgdjQiIGZpbGw9IiNmZmZmZmYiLz4KICA8ZWxsaXBzZSBjeD0iMzIiIGN5PSIyNi41IiByeD0iMTAiIHJ5PSIzLjIiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iIzEyM0I2RCIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPC9zdmc+Cg==' : 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiPgogIDxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjE2IiBmaWxsPSIjMTIzQjZEIi8+CiAgPHBhdGggZD0iTTkgNDUgUTMyIC0yIDU1IDQ1IiBmaWxsPSJub25lIiBzdHJva2U9IiMyQkI1N0IiIHN0cm9rZS13aWR0aD0iNS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNNyA0NSBINTciIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8Y2lyY2xlIGN4PSIyMyIgY3k9IjMzIiByPSIzLjYiIGZpbGw9IiNmZmZmZmYiLz4KICA8Y2lyY2xlIGN4PSIzMiIgY3k9IjMwIiByPSI0LjIiIGZpbGw9IiNmZmZmZmYiLz4KICA8Y2lyY2xlIGN4PSI0MSIgY3k9IjMzIiByPSIzLjYiIGZpbGw9IiNmZmZmZmYiLz4KICA8cGF0aCBkPSJNMTggNDIuNSBhNSA0LjYgMCAwIDEgMTAgMCBaIE0yNi40IDQyLjUgYTUuNiA1LjQgMCAwIDEgMTEuMiAwIFogTTM2IDQyLjUgYTUgNC42IDAgMCAxIDEwIDAgWiIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4K'}" alt=""><span class="who"><strong>${esc(s.name)}</strong><span>${s.roles.map((r) => (s.type === 'tontine' ? s.roleNames[r][0] : ROLE[r] ?? s.roleNames?.[r]?.[0] ?? '')).join(' · ')}</span></span></button>`).join('')
-      : '<div class="panel"><h2>Bienvenue !</h2><p class="fine">Vous ne faites encore partie d\'aucune association ni d\'aucune tontine. Rejoignez la vôtre avec le lien ou le code reçu, ou créez-en une.</p></div>'}
+      : me.isAdmin ? '' : '<div class="panel"><h2>Bienvenue !</h2><p class="fine">Vous ne faites encore partie d\'aucune association ni d\'aucune tontine. Rejoignez la vôtre avec le lien ou le code reçu, ou créez-en une.</p></div>'}
     <div id="pending-invites" style="display:contents"></div>
     ${me.isAdmin ? '<button class="spacecard" type="button" id="open-admin" style="border-color:#2BB57B;background:#123B6D;color:#fff"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiPgogIDxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjE2IiBmaWxsPSIjMTIzQjZEIi8+CiAgPHBhdGggZD0iTTkgNDUgUTMyIC0yIDU1IDQ1IiBmaWxsPSJub25lIiBzdHJva2U9IiMyQkI1N0IiIHN0cm9rZS13aWR0aD0iNS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNMjEgMjguNSBWNDUgTTMyIDIzIFY0NSBNNDMgMjguNSBWNDUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNNyA0NSBINTciIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+Cg==" alt=""><span class="who"><strong>Espace administrateur AfriPont</strong><span style="color:#cfe0f5">Suivre tous les espaces, leur activité et leurs abonnements</span></span></button>' : ''}
     ${installBox()}
     ${me.spaces.length ? '<button class="linkish center" type="button" id="add" style="align-self:center;padding:6px">+ Ajouter une association ou une tontine</button>'
-      : '<button class="primary" type="button" id="add">+ Ajouter une association ou une tontine</button>'}
+      : me.isAdmin ? '' : '<button class="primary" type="button" id="add">+ Ajouter une association ou une tontine</button>'}
     ${decouvrir()}
   </div>`;
   $('home-content').querySelectorAll('[data-space]').forEach((b) => b.addEventListener('click', () => openSpace(b.dataset.space)));
@@ -1345,7 +1347,7 @@ function renderHome() {
   });
   $('install-no')?.addEventListener('click', () => { storage.set('afripont-install-dismissed', '1'); renderHome() });
   // Un seul bouton discret : le membre rejoint avec son code, le président crée son association.
-  $('add').addEventListener('click', () => openSheet(`<h2>Ajouter un espace</h2>
+  $('add')?.addEventListener('click', () => openSheet(`<h2>Ajouter un espace</h2>
     <button class="ghost" type="button" id="a-create">Je crée mon association</button>
     <button class="ghost" type="button" id="a-tontine">Je crée une tontine</button>
     <button class="linkish" type="button" id="a-join">J'ai un code d'invitation</button>
