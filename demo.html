@@ -970,7 +970,9 @@ let authMode = 'login';
 // Lien d'invitation reçu (…/?invitation=CODE) : la personne crée son compte et entre
 // directement dans l'association, sans rien recopier.
 let invitation = new URLSearchParams(location.search).get('invitation');
-let invitedTo = null; // nom de l'association, affiché sur l'écran d'inscription
+let invitedTo = null; // nom de l'association ou de la tontine, affiché sur l'écran d'inscription
+// Le lien d'une tontine porte « &espace=tontine » : l'écran prend tout de suite le logo et la couleur de Tontine.
+let invitedTontine = new URLSearchParams(location.search).get('espace') === 'tontine';
 let isDemo = false; // démonstration (sur le PC ou dans le navigateur)
 
 function moveSlider() {
@@ -1143,7 +1145,7 @@ function setAuthMode(mode) {
       <label class="check"><input type="checkbox" id="c-cgu"><span>J'accepte les <a href="#" onclick="return false">conditions d'utilisation</a>.</span></label>
       <label class="check"><input type="checkbox" id="c-data"><span>J'accepte la <a href="#" onclick="return false">politique de confidentialité</a> et l'utilisation de mes données pour le service.</span></label>
       <label class="check"><input type="checkbox" id="c-adult"><span>J'ai 18 ans ou plus.</span></label>
-      ${invitation ? `<p class="fine">En rejoignant « ${esc(invitedTo)} », les membres du bureau verront votre nom et votre numéro ; les autres membres, votre nom.</p>` : ''}
+      ${invitation ? `<p class="fine">${invitedTontine ? `En rejoignant « ${esc(invitedTo)} », le responsable verra votre nom et votre numéro ; les autres participants, votre nom et vos versements.` : `En rejoignant « ${esc(invitedTo)} », les membres du bureau verront votre nom et votre numéro ; les autres membres, votre nom.`}</p>` : ''}
       <p class="err" id="auth-err"></p>
       <button class="primary" type="submit" id="su-btn" disabled>Recevoir le code par SMS</button>`;
     const pin = wirePin('sp', { strength: true, onChange: (ok) => { $('su-btn').disabled = !ok } });
@@ -1213,21 +1215,24 @@ async function showAuth(espace = null) {
   if (invitation && !invitedTo) {
     // On distingue un lien vraiment périmé (réponse du serveur) d'un simple souci de réseau.
     const found = await fetch(`/api/invites/${encodeURIComponent(invitation)}`).then((r) => (r.ok ? r.json() : { invalid: true }), () => ({ offline: true }));
-    if (found.spaceName) invitedTo = found.spaceName;
-    else if (found.offline) toast('Impossible de vérifier le lien : vérifiez votre connexion, puis touchez à nouveau le lien.');
+    if (found.spaceName) {
+      invitedTo = found.spaceName; invitedTontine = found.spaceType === 'tontine';
+      if (invitedTontine && espace !== 'tontine') return showAuth('tontine');
+    } else if (found.offline) toast('Impossible de vérifier le lien : vérifiez votre connexion, puis touchez à nouveau le lien.');
     else {
       invitation = null; history.replaceState(null, '', location.pathname);
       // Dans la démo du site, chaque onglet a ses propres données : un lien créé dans un autre onglet
       // ou sur un autre téléphone n'existe pas ici.
       toast(isDemo
-        ? 'Dans la démo, un lien d\'invitation ne marche que dans l\'onglet où il a été créé : collez-le dans la barre d\'adresse de cet onglet.'
+        ? 'Dans la démo, chaque onglet a ses propres données : ce lien n\'existe que dans l\'onglet où il a été créé. Collez-le dans la barre d\'adresse de cet onglet. Dans la vraie appli, il marche sur tous les téléphones.'
         : 'Ce lien d\'invitation n\'est plus valable. Demandez-en un nouveau.', isDemo ? 'sms' : '');
     }
   }
   setAuthMode(invitation ? 'signup' : 'login');
-  if (invitation) $('auth-title').textContent = `Rejoindre « ${invitedTo ?? 'votre association'} »`;
+  const where = invitedTontine ? 'la tontine' : 'l\'association';
+  if (invitation) $('auth-title').textContent = `Rejoindre « ${invitedTo ?? (invitedTontine ? 'votre tontine' : 'votre association')} »`;
   $('auth-lead').textContent = invitation
-    ? `Vous êtes invité(e) à rejoindre « ${invitedTo ?? 'votre association'} ». Créez votre compte : vous entrerez directement dans l'association. Déjà un compte ? Touchez « Se connecter ».`
+    ? `Vous êtes invité(e) à rejoindre « ${invitedTo ?? (invitedTontine ? 'votre tontine' : 'votre association')} ». Créez votre compte : vous entrerez directement dans ${where}. Déjà un compte ? Touchez « Se connecter ».`
     : look.lead;
 }
 
@@ -2233,7 +2238,7 @@ function addMemberSheet() {
 async function inviteSheet() {
   const r = await attempt(() => api('POST', `/api/spaces/${view.space.id}/invites`));
   if (!r) return;
-  const link = `${location.origin}${location.pathname}?invitation=${r.code}`;
+  const link = `${location.origin}${location.pathname}?invitation=${r.code}${isTontine() ? '&espace=tontine' : ''}`;
   const text = isTontine() ? `Rejoins la tontine « ${view.space.name} » sur AfriPont : tu verras pour qui on cotise à chaque tour et qui a versé. Clique sur ce lien : ${link}`
     : `Rejoins « ${view.space.name} » sur AfriPont pour suivre tes cotisations. Clique sur ce lien : ${link}`;
   // Le lien est la façon principale d'inviter ; le code reste en secours (à dicter au téléphone, par exemple).
@@ -2852,10 +2857,10 @@ function createTontineSheet() {
   if (token) { try { await loadHome(); return } catch { token = null; storage.set('afripont-token', null) } }
   // Arrivé par un lien d'invitation : directement la création de compte. Sinon, la page d'accueil
   // (AUTH_LOOK a une entrée « null » pour AfriPont : on vérifie d'abord qu'un espace a bien été retenu).
-  // Les invitations viennent toujours d'une association : l'écran prend le logo et le vert d'Associations.
+  // Une invitation prend le logo et la couleur de son espace (Tontine si le lien le dit, sinon Associations).
   // Lien du site « demo.html?espace=tontine » : on ouvre directement la connexion de cet espace.
   const asked = new URLSearchParams(location.search).get('espace');
-  if (invitation) showAuth('associations'); else if (asked && AUTH_LOOK[asked]) showAuth(asked); else if (entryMemory.get() && AUTH_LOOK[entryMemory.get()]) showAuth(entryMemory.get()); else { const e = new URLSearchParams(location.search).get('espace') || 'associations'; if (AUTH_LOOK[e]) showAuth(e); else show('welcome') }
+  if (invitation) showAuth(invitedTontine ? 'tontine' : 'associations'); else if (asked && AUTH_LOOK[asked]) showAuth(asked); else if (entryMemory.get() && AUTH_LOOK[entryMemory.get()]) showAuth(entryMemory.get()); else { const e = new URLSearchParams(location.search).get('espace') || 'associations'; if (AUTH_LOOK[e]) showAuth(e); else show('welcome') }
 })();
 // Depuis la page d'accueil, on garde une étape dans l'historique : le bouton Retour du téléphone y ramène.
 const toAuth = async (espace, mode) => { history.pushState({ screen: 'auth' }, ''); await showAuth(espace); if (mode) setAuthMode(mode) };
