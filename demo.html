@@ -257,15 +257,25 @@ button.stat:hover { border-color: var(--accent-text) }
 .demo-accounts button .fine { text-align: right }
 
 /* Barre d'onglets liquide */
-.tabbar { position: absolute; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); height: 66px; border-radius: 26px;
+.tabbar { position: absolute; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); height: 72px; border-radius: 26px;
   background: color-mix(in srgb, var(--surface) 84%, transparent); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border: 1px solid var(--line); box-shadow: var(--shadow); z-index: 3 }
 .goo { position: absolute; inset: 0; filter: url(#goo); pointer-events: none }
-.blob, .drip { position: absolute; top: 50%; left: 0; width: 50px; height: 50px; margin: -25px 0 0 -25px; border-radius: 50%; background: var(--blob, var(--accent)); transition: transform .55s cubic-bezier(.3, 1.4, .5, 1), background-color .5s }
-.drip { width: 30px; height: 30px; margin: -15px 0 0 -15px; transition: transform .8s cubic-bezier(.3, 1.2, .5, 1) .06s, background-color .5s }
+.blob, .drip { position: absolute; top: 25px; left: 0; width: 42px; height: 42px; margin: -21px 0 0 -21px; border-radius: 50%; background: var(--blob, var(--accent)); transition: transform .55s cubic-bezier(.3, 1.4, .5, 1), background-color .5s }
+.drip { width: 26px; height: 26px; margin: -13px 0 0 -13px; transition: transform .8s cubic-bezier(.3, 1.2, .5, 1) .06s, background-color .5s }
 .tabs { position: relative; z-index: 1; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; height: 100% }
-.tabs button { border: 0; background: none; cursor: pointer; display: grid; place-items: center; color: var(--muted); transition: color .3s, transform .3s cubic-bezier(.3, 1.4, .5, 1) }
-.tabs button svg { width: 22px; height: 22px }
-.tabs button[aria-selected="true"] { color: #fff; transform: translateY(-2px) }
+.tabs button { border: 0; background: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; padding: 14px 2px 0; gap: 9px; color: var(--muted); min-width: 0 }
+.tabs button svg { width: 22px; height: 22px; flex: none; transition: color .3s }
+/* Nom de l'onglet, sous l'icône : on sait où l'on va sans deviner. */
+.tabs button .sr { position: static; width: auto; height: auto; clip: auto; overflow: visible; font-size: 10.5px; font-weight: 600; line-height: 1.1; text-align: center; letter-spacing: -.01em; white-space: nowrap; max-width: 100% }
+.tabs button[aria-selected="true"] svg { color: #fff }
+.tabs button[aria-selected="true"] .sr { color: var(--accent-text); font-weight: 800 }
+/* Barre de l'administrateur : un onglet par espace, le logo de l'espace au-dessus de son nom. */
+#screen-admin .scroll { padding-bottom: 110px }
+.admintabs .tabs button { position: relative; gap: 6px; padding-top: 10px; border-radius: 20px; margin: 4px }
+.admintabs .tabs button img { width: 30px; height: 30px; border-radius: 8px; flex: none }
+.admintabs .tabs button[aria-selected="true"] { background: var(--accent-soft) }
+.admintabs .tabs button.soon img, .admintabs .tabs button.soon .sr { opacity: .5 }
+.admintabs .tabs button.soon em { position: absolute; top: 2px; right: 8px; font-style: normal; font-size: 9px; font-weight: 800; letter-spacing: .02em; color: #fff; background: #F39A2E; border-radius: 99px; padding: 2px 6px }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0) }
 
 .sheet { position: absolute; inset: 0; z-index: 8; display: flex; align-items: flex-end }
@@ -400,6 +410,13 @@ button.stat:hover { border-color: var(--accent-text) }
       <div class="assoc"><small>Administrateur</small><strong>Espaces clients</strong></div>
     </div>
     <div class="scroll" id="admin-content"></div>
+    <nav class="tabbar admintabs" id="admin-tabs" aria-label="Espaces">
+      <div class="tabs" role="tablist">
+        <button role="tab" aria-selected="true" data-espace-tab="associations" type="button"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiPgogIDxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjE2IiBmaWxsPSIjMTIzQjZEIi8+CiAgPHBhdGggZD0iTTkgNDUgUTMyIC0yIDU1IDQ1IiBmaWxsPSJub25lIiBzdHJva2U9IiMyQkI1N0IiIHN0cm9rZS13aWR0aD0iNS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNNyA0NSBINTciIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8Y2lyY2xlIGN4PSIyMyIgY3k9IjMzIiByPSIzLjYiIGZpbGw9IiNmZmZmZmYiLz4KICA8Y2lyY2xlIGN4PSIzMiIgY3k9IjMwIiByPSI0LjIiIGZpbGw9IiNmZmZmZmYiLz4KICA8Y2lyY2xlIGN4PSI0MSIgY3k9IjMzIiByPSIzLjYiIGZpbGw9IiNmZmZmZmYiLz4KICA8cGF0aCBkPSJNMTggNDIuNSBhNSA0LjYgMCAwIDEgMTAgMCBaIE0yNi40IDQyLjUgYTUuNiA1LjQgMCAwIDEgMTEuMiAwIFogTTM2IDQyLjUgYTUgNC42IDAgMCAxIDEwIDAgWiIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4K" alt=""><span class="sr">Associations</span></button>
+        <button role="tab" aria-selected="false" data-espace-tab="tontine" type="button"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiPgogIDxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjE2IiBmaWxsPSIjMTIzQjZEIi8+CiAgPHBhdGggZD0iTTkgNDUgUTMyIC0yIDU1IDQ1IiBmaWxsPSJub25lIiBzdHJva2U9IiM1QUFFRTgiIHN0cm9rZS13aWR0aD0iNS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNNyA0NSBINTciIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8ZWxsaXBzZSBjeD0iMzIiIGN5PSIzOC41IiByeD0iMTAiIHJ5PSIzLjIiIGZpbGw9IiNmZmZmZmYiLz4KICA8cGF0aCBkPSJNMjIgMzguNSB2LTQgaDIwIHY0IiBmaWxsPSIjZmZmZmZmIi8+CiAgPGVsbGlwc2UgY3g9IjMyIiBjeT0iMzQuNSIgcng9IjEwIiByeT0iMy4yIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxMjNCNkQiIHN0cm9rZS13aWR0aD0iMS41Ii8+CiAgPHBhdGggZD0iTTIyIDM0LjUgdi00IGgyMCB2NCIgZmlsbD0iI2ZmZmZmZiIvPgogIDxlbGxpcHNlIGN4PSIzMiIgY3k9IjMwLjUiIHJ4PSIxMCIgcnk9IjMuMiIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMTIzQjZEIiBzdHJva2Utd2lkdGg9IjEuNSIvPgogIDxwYXRoIGQ9Ik0yMiAzMC41IHYtNCBoMjAgdjQiIGZpbGw9IiNmZmZmZmYiLz4KICA8ZWxsaXBzZSBjeD0iMzIiIGN5PSIyNi41IiByeD0iMTAiIHJ5PSIzLjIiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iIzEyM0I2RCIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPC9zdmc+Cg==" alt=""><span class="sr">Tontine</span></button>
+        <button role="tab" aria-selected="false" data-espace-tab="versement" type="button" class="soon"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiPgogIDxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjE2IiBmaWxsPSIjMTIzQjZEIi8+CiAgPHBhdGggZD0iTTkgNDUgUTMyIC0yIDU1IDQ1IiBmaWxsPSJub25lIiBzdHJva2U9IiNGMzlBMkUiIHN0cm9rZS13aWR0aD0iNS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNNyA0NSBINTciIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNMTkgNDEuNSB2LTUgbDMuNS02LjUgaDIwIGwzLjUgNi41IHY1IFoiIGZpbGw9IiNmZmZmZmYiLz4KICA8cmVjdCB4PSIyNSIgeT0iMzIuNSIgd2lkdGg9IjYuNSIgaGVpZ2h0PSI0IiByeD0iMSIgZmlsbD0iIzEyM0I2RCIvPgogIDxyZWN0IHg9IjMzLjUiIHk9IjMyLjUiIHdpZHRoPSI2LjUiIGhlaWdodD0iNCIgcng9IjEiIGZpbGw9IiMxMjNCNkQiLz4KICA8cmVjdCB4PSIyOCIgeT0iMjYiIHdpZHRoPSI5IiBoZWlnaHQ9IjMiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+CiAgPGNpcmNsZSBjeD0iMjUiIGN5PSI0MiIgcj0iMyIgZmlsbD0iIzEyM0I2RCIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjEuNSIvPgogIDxjaXJjbGUgY3g9IjQwIiBjeT0iNDIiIHI9IjMiIGZpbGw9IiMxMjNCNkQiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPC9zdmc+Cg==" alt=""><span class="sr">Versement</span><em>Bientôt</em></button>
+      </div>
+    </nav>
   </section>
 
   <!-- Un espace (association) -->
@@ -2469,6 +2486,12 @@ async function demoAccounts(accounts) {
 // 4. Espace administrateur AfriPont : qui est à jour, qui est en retard
 // =====================================================================
 let adminData = null, adminFilter = 'all';
+// Un onglet par espace en bas de l'écran administrateur : on ne mélange pas associations et tontines.
+let adminEspace = 'associations';
+document.querySelectorAll('#admin-tabs [data-espace-tab]').forEach((b) => b.addEventListener('click', () => {
+  if (b.dataset.espaceTab === 'versement') return toast('AfriPont Versement arrive bientôt.');
+  adminEspace = b.dataset.espaceTab; adminFilter = 'all'; renderAdmin(); $('admin-content').scrollTop = 0;
+}));
 const SUB_STATE = {
   ok: ['ok', 'À jour'], late: ['late', 'En retard'], trial: ['wait', 'Essai'], pilot: ['due', 'Test gratuit'], free: ['ok', 'Gratuit'],
 };
@@ -2483,11 +2506,16 @@ $('admin-back').addEventListener('click', () => renderHome());
 
 function renderAdmin() {
   const t = adminData.totals;
-  const filters = [['all', 'Tous'], ['alerts', 'Alertes'], ['tontine', 'Tontines'], ['late', 'En retard'], ['ok', 'À jour'], ['trial', 'Essai'], ['pilot', 'Tests gratuits'], ['free', 'Gratuites']];
-  const keep = (s) => adminFilter === 'all' || (adminFilter === 'alerts' ? s.activity.alerts.length > 0
-    : adminFilter === 'tontine' ? s.type === 'tontine' : s.type !== 'tontine' && s.state === adminFilter);
+  const tontines = adminEspace === 'tontine';
+  document.querySelectorAll('#admin-tabs [data-espace-tab]').forEach((b) => b.setAttribute('aria-selected', b.dataset.espaceTab === adminEspace));
+  $('screen-admin').dataset.espace = adminEspace;
+  const mine = adminData.spaces.filter((s) => (s.type === 'tontine') === tontines);
+  const alerts = mine.reduce((n, s) => n + s.activity.alerts.length, 0);
+  const filters = tontines ? [['all', 'Toutes'], ['alerts', 'Alertes']]
+    : [['all', 'Toutes'], ['alerts', 'Alertes'], ['late', 'En retard'], ['ok', 'À jour'], ['trial', 'Essai'], ['pilot', 'Tests gratuits'], ['free', 'Gratuites']];
+  const keep = (s) => adminFilter === 'all' || (adminFilter === 'alerts' ? s.activity.alerts.length > 0 : s.state === adminFilter);
   const isLate = (s) => s.type !== 'tontine' && s.state === 'late'; // les tontines n'ont pas encore d'abonnement
-  const list = adminData.spaces.filter(keep)
+  const list = mine.filter(keep)
     .sort((a, b) => b.activity.alerts.length - a.activity.alerts.length || isLate(b) - isLate(a) || (a.type === 'tontine') - (b.type === 'tontine') || b.daysLate - a.daysLate);
   // Activité de l'espace en chiffres : aucun nom, aucun montant de membre (règle de confidentialité).
   const activity = (s) => `<p class="fine">${s.type === 'tontine' ? `${esc(s.activity.round)} · ` : ''}${s.activity.pending} paiement${s.activity.pending > 1 ? 's' : ''} à valider · ${s.activity.validatedThisMonth} validé${s.activity.validatedThisMonth > 1 ? 's' : ''} et ${s.activity.refusedThisMonth} refusé${s.activity.refusedThisMonth > 1 ? 's' : ''} ce mois-ci</p>
@@ -2509,10 +2537,10 @@ function renderAdmin() {
     free: '10 membres ou moins : gratuite',
   })[s.state];
   $('admin-content').innerHTML = `<div class="view">
-    <div class="stats"><button class="stat" type="button" data-tile="all"><b>${t.associations}</b><span>associations ›</span></button><button class="stat" type="button" data-tile="tontine"><b>${t.tontines}</b><span>tontines ›</span></button><button class="stat" type="button" data-tile="members"><b>${t.members}</b><span>membres ›</span></button><button class="stat warn" type="button" data-tile="alerts"><b>${t.alerts}</b><span>alertes ›</span></button><button class="stat warn" type="button" data-tile="late"><b>${t.late}</b><span>en retard ›</span></button></div>
-    <div class="panel balance"><span class="eyebrow">Ce que rapportent les abonnements, chaque mois</span><div class="amount">${t.expectedMonthly.toLocaleString('fr-FR')} <small>FCFA / mois</small></div>
-      <div class="sub"><span>Argent réellement encaissé ce mois-ci</span><span>${fcfa(t.receivedThisMonth)}</span></div></div>
-    ${adminData.claims.length ? `<div class="panel warnbox"><span class="eyebrow">À vérifier puis valider</span><h2>Paiements d'abonnement reçus (${adminData.claims.length})</h2>
+    <div class="stats"><button class="stat" type="button" data-tile="all"><b>${mine.length}</b><span>${tontines ? 'tontines' : 'associations'} ›</span></button><button class="stat" type="button" data-tile="members"><b>${mine.reduce((n, s) => n + s.memberCount, 0)}</b><span>${tontines ? 'participants' : 'membres'} ›</span></button><button class="stat warn" type="button" data-tile="alerts"><b>${alerts}</b><span>alertes ›</span></button>${tontines ? '' : `<button class="stat warn" type="button" data-tile="late"><b>${t.late}</b><span>en retard ›</span></button>`}</div>
+    ${tontines ? '<div class="panel"><p class="fine">Le prix de l\'espace Tontine n\'est pas encore fixé : les tontines utilisent AfriPont gratuitement pour l\'instant.</p></div>' : `<div class="panel balance"><span class="eyebrow">Ce que rapportent les abonnements, chaque mois</span><div class="amount">${t.expectedMonthly.toLocaleString('fr-FR')} <small>FCFA / mois</small></div>
+      <div class="sub"><span>Argent réellement encaissé ce mois-ci</span><span>${fcfa(t.receivedThisMonth)}</span></div></div>`}
+    ${!tontines && adminData.claims.length ? `<div class="panel warnbox"><span class="eyebrow">À vérifier puis valider</span><h2>Paiements d'abonnement reçus (${adminData.claims.length})</h2>
       <ul class="list">${adminData.claims.map((c) => `<li class="stack">${c.hasProof ? `<button class="shot" type="button" data-claimshot="${c.id}" aria-label="Voir la capture"></button>` : ''}<span class="who"><strong>${esc(c.spaceName)}</strong><span><b class="money">${fcfa(c.amount)}</b> · ${c.months} mois · ${esc(c.operator)} · réf. ${esc(c.ref)}<br>Envoyé par ${esc(c.declaredBy)} le ${dateFr(c.declaredAt)}</span></span>
         <span class="actions"><button class="mini no" type="button" data-claim-ko="${c.id}">Refuser</button><button class="mini" type="button" data-claim-ok="${c.id}">Valider</button></span></li>`).join('')}</ul>
       <p class="lockline">${LOCK}Vérifiez que l'argent est bien arrivé sur le numéro AfriPont avant de valider : une capture peut être truquée.</p></div>` : ''}
@@ -2532,18 +2560,19 @@ function renderAdmin() {
         ${['late', 'trial'].includes(s.state) ? `<button class="mini no" type="button" data-remind="${s.id}">Rappel SMS</button>` : ''}
         <button class="mini no" type="button" data-pilot="${s.id}">${s.pilot ? 'Remettre en payant' : 'Offrir la gratuité (association test)'}</button>
       </div>
-      ${accessBlock(s)}</div>`).join('') : '<div class="panel"><p class="fine">Aucun espace dans cette catégorie.</p></div>'}
+      ${accessBlock(s)}</div>`).join('') : `<div class="panel"><p class="fine">Aucune ${tontines ? 'tontine' : 'association'} dans cette catégorie.</p></div>`}
     <p class="lockline">${LOCK}L'administrateur voit l'abonnement et l'activité de chaque espace en chiffres : jamais le nom, le numéro ni le paiement d'un membre, ni les captures. Le détail s'ouvre seulement avec l'accord du président (ou du responsable), pendant 48 heures, en lecture seule.</p>
   </div>`;
   const c = $('admin-content');
   // Les chiffres du haut s'ouvrent : liste complète des associations (par nom ou par nombre de membres).
   c.querySelectorAll('[data-tile]').forEach((b) => b.addEventListener('click', () => {
-    if (['late', 'alerts', 'tontine'].includes(b.dataset.tile)) { adminFilter = b.dataset.tile; renderAdmin(); return }
+    if (['late', 'alerts'].includes(b.dataset.tile)) { adminFilter = b.dataset.tile; renderAdmin(); return }
     const byMembers = b.dataset.tile === 'members';
-    const all = [...adminData.spaces].filter((s) => byMembers || s.type !== 'tontine').sort((x, y) => (byMembers ? y.memberCount - x.memberCount : x.name.localeCompare(y.name, 'fr')));
-    openSheet(`<h2>${byMembers ? `${t.members} membres au total` : `Les ${t.associations} associations`}</h2>
-      <p class="fine">${byMembers ? 'Classées de la plus grande à la plus petite.' : 'Par ordre alphabétique.'} Touchez une association pour voir sa fiche.</p>
-      <ul class="list">${all.map((s) => `<li><button class="persona" type="button" data-goto="${s.id}" style="border:0;padding:4px 0"><span class="who"><strong>${esc(s.name)}</strong><span>${s.memberCount} membres · ${s.monthly ? `${fcfa(s.monthly)} / mois` : 'gratuite'}</span></span><span class="chip ${SUB_STATE[s.state][0]}">${SUB_STATE[s.state][1]}</span></button></li>`).join('')}</ul>
+    const all = [...mine].sort((x, y) => (byMembers ? y.memberCount - x.memberCount : x.name.localeCompare(y.name, 'fr')));
+    const word = tontines ? ['tontine', 'participants'] : ['association', 'membres'];
+    openSheet(`<h2>${byMembers ? `${all.reduce((n, s) => n + s.memberCount, 0)} ${word[1]} au total` : `Les ${all.length} ${word[0]}s`}</h2>
+      <p class="fine">${byMembers ? 'Classées de la plus grande à la plus petite.' : 'Par ordre alphabétique.'} Touchez une ${word[0]} pour voir sa fiche.</p>
+      <ul class="list">${all.map((s) => `<li><button class="persona" type="button" data-goto="${s.id}" style="border:0;padding:4px 0"><span class="who"><strong>${esc(s.name)}</strong><span>${tontines ? `${s.memberCount} participants · ${esc(s.activity.round)}` : `${s.memberCount} membres · ${s.monthly ? `${fcfa(s.monthly)} / mois` : 'gratuite'}`}</span></span>${tontines ? '' : `<span class="chip ${SUB_STATE[s.state][0]}">${SUB_STATE[s.state][1]}</span>`}</button></li>`).join('')}</ul>
       <button class="ghost" type="button" data-close>Fermer</button>`, (sh) => {
       sh.querySelectorAll('[data-goto]').forEach((g) => g.addEventListener('click', () => {
         closeSheet();
@@ -2647,7 +2676,7 @@ function adminPaySheet(s) {
 // =====================================================================
 // AfriPont Tontine : le tour en cours, l'ordre de passage, les participants.
 // Mêmes onglets que l'association (Accueil, Versements, Ordre, Participants), sans les annonces.
-const T_TABS = { payer: 'Versements', caisse: 'Ordre de passage', membres: 'Participants' };
+const T_TABS = { payer: 'Versements', caisse: 'Ordre', membres: 'Participants' };
 const ORDER_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 6h10M10 12h10M10 18h10"/><path d="M4 5.5l1.5-1V9M3.8 14.2a1.4 1.4 0 0 1 2.4 1L4 18h2.4"/></svg>';
 let defaultTabs = null;
 function setTabsFor(type) {
